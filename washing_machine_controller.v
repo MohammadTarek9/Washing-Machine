@@ -3,7 +3,7 @@ module washing_machine_controller (
     input reset,                 // Reset signal
     input start,                 // Start button
     input stop,                 // Stop button
-    input [3:0] wash_mode                 //wash mode selector
+    input [3:0] wash_mode                 //wash mode selector, see comments next to the case statement that handles these wash modes
     input [1:0] wash_cycle,      // Wash cycle selector (00 = Normal, 01 = Delicate, 10 = Heavy Duty, 11 = Quick Wash)
     input [1:0] temperature,     // Temperature selector (00 = Cold, 01 = Warm, 10 = Hot)
     input [1:0] spin_speed,      // Spin speed selector (00 = Low, 01 = Medium, 10 = High)
@@ -44,9 +44,6 @@ localparam [3:0] SPIN        = 4'b0100;
 localparam [3:0] DRAIN       = 4'b0101;
 localparam [3:0] COMPLETE    = 4'b0110;
 localparam [3:0] ERROR_STATE = 4'b0111;
-
-//wash modes
-localparam 
 
 reg [3:0] current_state, next_state;
 
@@ -229,7 +226,7 @@ end
             2'b10: target_spin_speed = MAX_SPIN_SPEED;  // High
             default: target_spin_speed = 10'd400;
         endcase
-        case(wash_mode)
+        case(wash_mode) ///logic for setting every wash mode will need to change, this is just an overview
         COTTON: begin
             target_temperature = WASH_TEMP_WARM;
             target_spin_speed = 10'd800;
