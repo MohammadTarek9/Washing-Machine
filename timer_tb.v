@@ -11,9 +11,9 @@ timer dut(clk, reset, enable, clk_freq, timer_period, done);
 
 //Creating clock
 initial begin
-    clk = 0;
+    clk = 1;
     forever begin
-        #5 clk = ~clk;
+        #1 clk = ~clk;
     end
 end
 
@@ -21,8 +21,8 @@ end
 initial begin
     enable = 1'b1;
     reset = 1'b0;
-    clk_freq = 'd1;
-    timer_period = 'd3;
+    clk_freq = 'd5;
+    timer_period = 'd1;
 end
 
 endmodule

@@ -256,6 +256,10 @@ always @(*) begin
     vibration_error_led = 0;
     next_state = current_state; // Default to hold state
 
+    water_flow_error_flag = 0; //first edit
+    water_drainage_error_flag = 0; //first edit
+    vibration_error_flag = 0; //first edit
+
     if (stop) begin
         next_state = CANCEL_DRAIN;
     end else if (vibration_error_flag) begin
@@ -312,7 +316,7 @@ always @(*) begin
             HEAT_FILL: begin
                 water_flow_mode = 1;   // Filling mode
                 water_flow_reset = 0;
-                if(water_level_sensor>=GENERAL_WATER_LEVEL) begin
+                if(water_level_sensor>=water_level) begin
                     water_valve=0;
                 end
                 else begin

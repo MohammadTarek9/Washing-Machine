@@ -2,7 +2,7 @@ module washing_machine_load_size_detection(
     input wire clk,        // Clock signal
     input wire reset,      // Reset signal
     input wire [7:0] load_weight, // Load sensor input representing the weight of clothes
-    output reg [9:0] water_level  // 3-bit water level output: 0 for Low, 1 for Medium, 2 for High
+    output reg [9:0] water_level  // Output representing the water level based on load weight
 );
 
 // Thresholds for load weight to determine water level
