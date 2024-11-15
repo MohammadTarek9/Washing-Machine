@@ -21,14 +21,14 @@ module spin_speed_incrementor_lut(
         if (reset) begin
             // Initialize index based on the wash_mode
             case (wash_mode)
-                4'd0: index <= 2'd3; // COTTON -> 1400
-                4'd1: index <= 2'd3; // SYNTHETICS -> 1400
-                4'd2: index <= 2'd2; // DRUM_CLEAN -> 1200
-                4'd3: index <= 2'd1; // QUICK_WASH -> 800
-                4'd4: index <= 2'd3; // DAILY_WASH -> 1400
-                4'd5: index <= 2'd0; // DELICATES -> 400
-                4'd6: index <= 2'd1; // WOOL -> 800
-                4'd7: index <= 2'd3; // COLOURS -> 1400
+                3'd0: index <= 2'd3; // COTTON -> 1400
+                3'd1: index <= 2'd3; // SYNTHETICS -> 1400
+                3'd2: index <= 2'd2; // DRUM_CLEAN -> 1200
+                3'd3: index <= 2'd1; // QUICK_WASH -> 800
+                3'd4: index <= 2'd3; // DAILY_WASH -> 1400
+                3'd5: index <= 2'd0; // DELICATES -> 400
+                3'd6: index <= 2'd1; // WOOL -> 800
+                3'd7: index <= 2'd3; // COLOURS -> 1400
                 default: index <= 2'd0;
             endcase
             increment_prev <= 0; // Initialize the previous increment signal for edge detection

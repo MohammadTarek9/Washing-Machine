@@ -108,7 +108,7 @@ parameter [3:0] time_COLOURS = 4'd9;
 reg timer_enable=0; //it is wire in the timer
 reg timer_reset;
 wire timer_done;
-reg [15:0] clk_freq = 16'd1;  //1Hz
+reg [15:0] clk_freq = 16'd5;  //1Hz
 reg [15:0] timer_period; //changes with every state
 
 reg temp_reset;

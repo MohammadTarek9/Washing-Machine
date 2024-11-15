@@ -24,6 +24,7 @@ module temperature_incrementor_tb();
     initial begin
         //$dumpfile("temperature_incrementor_tb.vcd");
         $dumpvars(0, temperature_incrementor_tb);
+        //checking that incrementing to the next temperature works correctly and correctly selected for each wash mode
         reset = 1;
         increment = 0;
         wash_mode = 3'd0;
@@ -36,6 +37,27 @@ module temperature_incrementor_tb();
             #2;
             end
         end
+        //checking that it can increment through all temperatures
+        #2
+        reset=1;
+        wash_mode=3'd3;
+        #2
+        reset=0;
+        increment=1;
+        #2
+        increment=0;
+        #2
+        increment=1;
+        #2
+        increment=0;
+        #2
+        increment=1;
+        #2
+        increment=0;
+        #2
+        increment=1;
+        #2
+        increment=0;
         #4 $stop;
     end
            

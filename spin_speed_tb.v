@@ -24,6 +24,7 @@ module spin_speed_tb();
     initial begin
         //$dumpfile("spin_speed_tb.vcd");
         $dumpvars(0, spin_speed_tb);
+        //checking that it correctly selects speed for each mode and can increment
         reset = 1;
         increment = 0;
         wash_mode = 3'd0;
@@ -36,6 +37,27 @@ module spin_speed_tb();
             #2;
             end
         end
+        //checking that it can correctly increment between all spin speeds
+        #2
+        reset=1;
+        wash_mode=3'd3;
+        #2
+        reset=0;
+        increment=1;
+        #2
+        increment=0;
+        #2
+        increment=1;
+        #2
+        increment=0;
+        #2
+        increment=1;
+        #2
+        increment=0;
+        #2
+        increment=1;
+        #2
+        increment=0;
         #4 $stop;
     end
            

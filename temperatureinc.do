@@ -1,11 +1,9 @@
-vlib
-work
-vlog temperature_incrementor_lut.sv temperature_incrementor_tb.sv +cover
-covercells
-vsim
-voptargs =+acc work.temperature_incrementor_tb cover
-add wave *
-coverage save temperature_incrementor_tb.ucdb
-onexit
-run
-all
+vlib work
+
+vlog +cover=bcst temperature_incrementor_lut.v temperature_incrementor_tb.v
+
+vsim -c -coverage work.temperature_incrementor_tb.v
+
+run -all
+
+coverage report -details -output coverage_report.txt

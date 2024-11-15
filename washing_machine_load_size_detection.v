@@ -23,9 +23,9 @@ always @(posedge clk or posedge reset) begin
     end else begin
         if (load_weight <= LOW_THRESHOLD) begin
             water_level <= LOW_SENSOR_VALUE; // Low water level
-        end else if (load_weight > LOW_THRESHOLD && load_weight <= MEDIUM_THRESHOLD) begin
+        end else if (load_weight <= MEDIUM_THRESHOLD) begin
             water_level <= MEDIUM_SENSOR_VALUE; // Medium water level
-        end else if (load_weight > MEDIUM_THRESHOLD && load_weight <= HIGH_THRESHOLD) begin
+        end else if (load_weight <= HIGH_THRESHOLD) begin
             water_level <= HIGH_SENSOR_VALUE; // High water level
         end else begin
             water_level <= EXTRA_HIGH_SENSOR_VALUE; // Extra High water level

@@ -7,8 +7,8 @@ module WaterFlowMonitor (
 );
 
     // Parameters for threshold and time limit
-    parameter integer THRESHOLD = 10;     // Minimum level change required
-    parameter integer TIME_LIMIT = 1000;  // Number of cycles to wait for change
+    parameter THRESHOLD = 10;     // Minimum level change required
+    parameter TIME_LIMIT = 5;  // Number of clock cycles to wait for change
 
     // Internal registers
     reg [9:0] previous_level;             // Stores previous water level

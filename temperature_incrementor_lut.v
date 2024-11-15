@@ -21,14 +21,14 @@ module temperature_incrementor_lut(
         if (reset) begin
             // Initialize index based on the wash_mode
             case (wash_mode)
-                4'd0: index <= 2'd2; // COTTON -> 40
-                4'd1: index <= 2'd2; // SYNTHETICS -> 40
-                4'd2: index <= 2'd3; // DRUM_CLEAN -> 60
-                4'd3: index <= 2'd0; // QUICK_WASH -> 10
-                4'd4: index <= 2'd2; // DAILY_WASH -> 40
-                4'd5: index <= 2'd1; // DELICATES -> 30
-                4'd6: index <= 2'd2; // WOOL -> 40
-                4'd7: index <= 2'd2; // COLOURS -> 40
+                3'd0: index <= 2'd2; // COTTON -> 40
+                3'd1: index <= 2'd2; // SYNTHETICS -> 40
+                3'd2: index <= 2'd3; // DRUM_CLEAN -> 60
+                3'd3: index <= 2'd0; // QUICK_WASH -> 10
+                3'd4: index <= 2'd2; // DAILY_WASH -> 40
+                3'd5: index <= 2'd1; // DELICATES -> 30
+                3'd6: index <= 2'd2; // WOOL -> 40
+                3'd7: index <= 2'd2; // COLOURS -> 40
                 default: index <= 2'd0;
             endcase
             increment_prev <= 0; // Initialize the previous increment signal for edge detection
