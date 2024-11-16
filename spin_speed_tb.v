@@ -5,7 +5,8 @@ module spin_speed_tb();
     reg [2:0] wash_mode;
     reg increment;
     wire [10:0] selected_spin_speed;
-    integer i, j;
+    reg [3:0] i;
+    reg [1:0] j;
     spin_speed_incrementor_lut dut(
         .clk(clk),
         .reset(reset),
@@ -38,6 +39,9 @@ module spin_speed_tb();
             end
         end
         //checking that it can correctly increment between all spin speeds
+        #2 
+        reset=1;
+        wash_mode=3'bx;
         #2
         reset=1;
         wash_mode=3'd3;
@@ -58,6 +62,16 @@ module spin_speed_tb();
         increment=1;
         #2
         increment=0;
+        #2
+        increment=1;
+        #2
+        increment=1;
+        #2
+        increment=1;
+        #2
+        increment=1;
+        #2
+        increment=1;
         #4 $stop;
     end
            

@@ -3,14 +3,14 @@ module temperature_incrementor_lut(
     input reset,                         // Reset input to initialize `index`
     input [2:0] wash_mode,               // Input for wash mode selection
     input increment,                     // Input signal to trigger index increment
-    output reg [6:0] selected_temperature // Output for selected temperature
+    output reg [5:0] selected_temperature // Output for selected temperature
 );
 
     // Parameters for temperatures
-    parameter [6:0] TEMP_10 = 7'd10;
-    parameter [6:0] TEMP_30 = 7'd30;
-    parameter [6:0] TEMP_40 = 7'd40;
-    parameter [6:0] TEMP_60 = 7'd60;
+    parameter [5:0] TEMP_10 = 6'd10;
+    parameter [5:0] TEMP_30 = 6'd30;
+    parameter [5:0] TEMP_40 = 6'd40;
+    parameter [5:0] TEMP_60 = 6'd60;
 
     // Variables
     reg [1:0] index;                     // Holds the mapped index for the current wash mode
@@ -48,9 +48,9 @@ module temperature_incrementor_lut(
             2'd0: selected_temperature = TEMP_10;
             2'd1: selected_temperature = TEMP_30;
             2'd2: selected_temperature = TEMP_40;
-            2'd3: selected_temperature = TEMP_60;
-            default: selected_temperature = TEMP_10;
+            default: selected_temperature = TEMP_60;
         endcase
     end
     
 endmodule
+

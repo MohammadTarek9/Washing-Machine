@@ -1,0 +1,407 @@
+# QuestaSim-64 vcover 2024.1 Coverage Utility 2024.02 Feb  1 2024
+# Start time: 00:09:31 on Nov 16,2024
+# vcover report loadsize5.ucdb -details -annotate -all 
+# Support of the MGLS_LICENSE_FILE and LM_LICENSE_FILE licensing environment variables will be discontinued starting with the 2025.1 release. Please update to using the SALT_LICENSE_SERVER variable.
+# Please contact Siemens EDA Customer Support (https://support.sw.siemens.com/) for assistance.
+# Coverage Report by instance with details
+# 
+# =================================================================================
+# === Instance: /load_size_tb/uut
+# === Design Unit: work.washing_machine_load_size_detection
+# =================================================================================
+# Branch Coverage:
+#     Enabled Coverage              Bins      Hits    Misses  Coverage
+#     ----------------              ----      ----    ------  --------
+#     Branches                         6         6         0   100.00%
+# 
+# ================================Branch Details================================
+# 
+# Branch Coverage for instance /load_size_tb/uut
+# 
+#     Line         Item                      Count     Source 
+#     ----         ----                      -----     ------ 
+#   File washing_machine_load_size_detection.v
+# ------------------------------------IF Branch------------------------------------
+#     21                                        26     Count coming in to IF
+#     21              1                          4         if (reset) begin
+# 
+#     23              1                         22         end else begin
+# 
+# Branch totals: 2 hits of 2 branches = 100.00%
+# 
+# ------------------------------------IF Branch------------------------------------
+#     24                                        22     Count coming in to IF
+#     24              1                          8             if (load_weight <= LOW_THRESHOLD) begin
+# 
+#     26              1                          6             end else if (load_weight <= MEDIUM_THRESHOLD) begin
+# 
+#     28              1                          4             end else if (load_weight <= HIGH_THRESHOLD) begin
+# 
+#     30              1                          4             end else begin
+# 
+# Branch totals: 4 hits of 4 branches = 100.00%
+# 
+# 
+# Condition Coverage:
+#     Enabled Coverage              Bins   Covered    Misses  Coverage
+#     ----------------              ----      ----    ------  --------
+#     Conditions                       3         3         0   100.00%
+# 
+# ================================Condition Details================================
+# 
+# Condition Coverage for instance /load_size_tb/uut --
+# 
+#   File washing_machine_load_size_detection.v
+# ----------------Focused Condition View-------------------
+# Line       24 Item    1  (load_weight <= 20)
+# Condition totals: 1 of 1 input term covered = 100.00%
+# 
+#            Input Term   Covered  Reason for no coverage   Hint
+#           -----------  --------  -----------------------  --------------
+#   (load_weight <= 20)         Y
+# 
+#      Rows:       Hits  FEC Target             Non-masking condition(s)      
+#  ---------  ---------  --------------------   -------------------------     
+#   Row   1:          1  (load_weight <= 20)_0  -                             
+#   Row   2:          1  (load_weight <= 20)_1  -                             
+# 
+# ----------------Focused Condition View-------------------
+# Line       26 Item    1  (load_weight <= 50)
+# Condition totals: 1 of 1 input term covered = 100.00%
+# 
+#            Input Term   Covered  Reason for no coverage   Hint
+#           -----------  --------  -----------------------  --------------
+#   (load_weight <= 50)         Y
+# 
+#      Rows:       Hits  FEC Target             Non-masking condition(s)      
+#  ---------  ---------  --------------------   -------------------------     
+#   Row   1:          1  (load_weight <= 50)_0  -                             
+#   Row   2:          1  (load_weight <= 50)_1  -                             
+# 
+# ----------------Focused Condition View-------------------
+# Line       28 Item    1  (load_weight <= 80)
+# Condition totals: 1 of 1 input term covered = 100.00%
+# 
+#            Input Term   Covered  Reason for no coverage   Hint
+#           -----------  --------  -----------------------  --------------
+#   (load_weight <= 80)         Y
+# 
+#      Rows:       Hits  FEC Target             Non-masking condition(s)      
+#  ---------  ---------  --------------------   -------------------------     
+#   Row   1:          1  (load_weight <= 80)_0  -                             
+#   Row   2:          1  (load_weight <= 80)_1  -                             
+# 
+# 
+# Statement Coverage:
+#     Enabled Coverage              Bins      Hits    Misses  Coverage
+#     ----------------              ----      ----    ------  --------
+#     Statements                       6         6         0   100.00%
+# 
+# ================================Statement Details================================
+# 
+# Statement Coverage for instance /load_size_tb/uut --
+# 
+#     Line         Item                      Count     Source 
+#     ----         ----                      -----     ------ 
+#   File washing_machine_load_size_detection.v
+#     1                                                module washing_machine_load_size_detection(
+# 
+#     2                                                    input wire clk,        // Clock signal
+# 
+#     3                                                    input wire reset,      // Reset signal
+# 
+#     4                                                    input wire [7:0] load_weight, // Load sensor input representing the weight of clothes
+# 
+#     5                                                    output reg [9:0] water_level  // Output representing the water level based on load weight
+# 
+#     6                                                );
+# 
+#     7                                                
+# 
+#     8                                                // Thresholds for load weight to determine water level
+# 
+#     9                                                parameter LOW_THRESHOLD = 8'd20;    // 20 units of weight for Low water level
+# 
+#     10                                               parameter MEDIUM_THRESHOLD = 8'd50; // 50 units of weight for Medium water level
+# 
+#     11                                               parameter HIGH_THRESHOLD = 8'd80;   // 80 units of weight for High water level
+# 
+#     12                                               
+# 
+#     13                                               // State machine to control water level
+# 
+#     14                                               parameter LOW_SENSOR_VALUE = 10'd175;    // Sensor reading for Low water level
+# 
+#     15                                               parameter MEDIUM_SENSOR_VALUE = 10'd300; // Sensor reading for Medium water level
+# 
+#     16                                               parameter HIGH_SENSOR_VALUE = 10'd600;   // Sensor reading for High water level
+# 
+#     17                                               parameter EXTRA_HIGH_SENSOR_VALUE = 10'd900; // Sensor reading for Extra High water level
+# 
+#     18                                               
+# 
+#     19                                               // State machine to control water level based on load weight
+# 
+#     20              1                         26     always @(posedge clk or posedge reset) begin
+# 
+#     21                                                   if (reset) begin
+# 
+#     22              1                          4             water_level <= 10'd0; // Reset to 0 (no water level)
+# 
+#     23                                                   end else begin
+# 
+#     24                                                       if (load_weight <= LOW_THRESHOLD) begin
+# 
+#     25              1                          8                 water_level <= LOW_SENSOR_VALUE; // Low water level
+# 
+#     26                                                       end else if (load_weight <= MEDIUM_THRESHOLD) begin
+# 
+#     27              1                          6                 water_level <= MEDIUM_SENSOR_VALUE; // Medium water level
+# 
+#     28                                                       end else if (load_weight <= HIGH_THRESHOLD) begin
+# 
+#     29              1                          4                 water_level <= HIGH_SENSOR_VALUE; // High water level
+# 
+#     30                                                       end else begin
+# 
+#     31              1                          4                 water_level <= EXTRA_HIGH_SENSOR_VALUE; // Extra High water level
+# 
+# 
+# Toggle Coverage:
+#     Enabled Coverage              Bins      Hits    Misses  Coverage
+#     ----------------              ----      ----    ------  --------
+#     Toggles                         40        40         0   100.00%
+# 
+# ================================Toggle Details================================
+# 
+# Toggle Coverage for instance /load_size_tb/uut --
+# 
+#                                               Node      1H->0L      0L->1H  "Coverage"
+#                                               ---------------------------------------
+#                                                clk           1           1      100.00 
+#                                   load_weight[0-7]           1           1      100.00 
+#                                              reset           1           1      100.00 
+#                                   water_level[0-9]           1           1      100.00 
+# 
+# Total Node Count     =         20 
+# Toggled Node Count   =         20 
+# Untoggled Node Count =          0 
+# 
+# Toggle Coverage      =     100.00% (40 of 40 bins)
+# 
+# =================================================================================
+# === Instance: /load_size_tb
+# === Design Unit: work.load_size_tb
+# =================================================================================
+# Statement Coverage:
+#     Enabled Coverage              Bins      Hits    Misses  Coverage
+#     ----------------              ----      ----    ------  --------
+#     Statements                      46        46         0   100.00%
+# 
+# ================================Statement Details================================
+# 
+# Statement Coverage for instance /load_size_tb --
+# 
+#     Line         Item                      Count     Source 
+#     ----         ----                      -----     ------ 
+#   File load_size_tb.v
+#     2                                                module load_size_tb;
+# 
+#     3                                                
+# 
+#     4                                                // ports
+# 
+#     5                                                reg clk;
+# 
+#     6                                                reg reset;
+# 
+#     7                                                reg [7:0] load_weight;
+# 
+#     8                                                
+# 
+#     9                                                wire [9:0] water_level;
+# 
+#     10                                               
+# 
+#     11                                               
+# 
+#     12                                               washing_machine_load_size_detection uut (
+# 
+#     13                                                   .clk(clk),
+# 
+#     14                                                   .reset(reset),
+# 
+#     15                                                   .load_weight(load_weight),
+# 
+#     16                                                   .water_level(water_level)
+# 
+#     17                                               );
+# 
+#     18                                               
+# 
+#     19                                               initial begin
+# 
+#     20              1                          1         clk = 0;
+# 
+#     21              1                          1         forever #1 clk = ~clk; 
+# 
+#     21              2                         50     
+#     21              3                         49     
+#     22                                               end
+# 
+#     23                                               
+# 
+#     24                                               // Test sequence
+# 
+#     25                                               initial begin
+# 
+#     26                                                       //$dumpfile("washing_machine_load_size_detection_tb.vcd");
+# 
+#     27              1                          1             $dumpvars(0, load_size_tb);
+# 
+#     28              1                          1         reset = 1;
+# 
+#     29              1                          1         load_weight = 8'd0;
+# 
+#     30              1                          1         #2 reset = 0;
+# 
+#     30              2                          1     
+#     31                                               
+# 
+#     32                                                   // Test Case 1: Low water level (load_weight <= LOW_THRESHOLD)
+# 
+#     33              1                          1         #2 load_weight = 8'd10; // 00001010
+# 
+#     33              2                          1     
+#     34              1                          1         #2; // Wait and check water_level output
+# 
+#     35                                               
+# 
+#     36                                                   // Test Case 2: Medium water level (LOW_THRESHOLD < load_weight <= MEDIUM_THRESHOLD)
+# 
+#     37              1                          1         #2 load_weight = 8'd30; // 00011110
+# 
+#     37              2                          1     
+#     38              1                          1         #2; // Wait and check water_level output
+# 
+#     39                                               
+# 
+#     40                                                   // Test Case 3: High water level (MEDIUM_THRESHOLD < load_weight <= HIGH_THRESHOLD)
+# 
+#     41              1                          1         #2 load_weight = 8'd60; // 00111100
+# 
+#     41              2                          1     
+#     42              1                          1         #2; // Wait and check water_level output
+# 
+#     43                                               
+# 
+#     44                                                   // Test Case 4: Extra High water level (load_weight > HIGH_THRESHOLD)
+# 
+#     45              1                          1         #2 load_weight = 8'd90; // 01011010
+# 
+#     45              2                          1     
+#     46              1                          1         #2; // Wait and check water_level output
+# 
+#     47                                               
+# 
+#     48                                                   // Test Case 5: (load_weight = LOW_THRESHOLD)
+# 
+#     49              1                          1         #2 load_weight = 8'd20; // 00010100
+# 
+#     49              2                          1     
+#     50              1                          1         #2; // Wait and check water_level output
+# 
+#     51                                               
+# 
+#     52                                                   // Test Case 6:  (load_weight = MEDIUM_THRESHOLD)
+# 
+#     53              1                          1         #2 load_weight = 8'd50; // 00110010
+# 
+#     53              2                          1     
+#     54              1                          1         #2; // Wait and check water_level output
+# 
+#     55                                               
+# 
+#     56                                                   // Test Case 7:  (load_weight = HIGH_THRESHOLD)
+# 
+#     57              1                          1         #2 load_weight = 8'd80; // 01010000
+# 
+#     57              2                          1     
+#     58              1                          1         #2; // Wait and check water_level output
+# 
+#     59                                               
+# 
+#     60                                                   // Test Case 8: Medium load weight
+# 
+#     61              1                          1         #2 load_weight = 8'd25; // 00011001
+# 
+#     61              2                          1     
+#     62              1                          1         #2; // Wait and check water_level output
+# 
+#     63                                               
+# 
+#     64                                                   // Additional Test Case 9: Toggle all bits
+# 
+#     65              1                          1         #2 load_weight = 8'd255; // 11111111
+# 
+#     65              2                          1     
+#     66              1                          1         #2; // Wait and check water_level output
+# 
+#     67                                               
+# 
+#     68                                                   // Additional Test Case 10: Toggle all bits back to 0
+# 
+#     69              1                          1         #2 load_weight = 8'd0; // 00000000
+# 
+#     69              2                          1     
+#     70              1                          1         #2; // Wait and check water_level output
+# 
+#     71              1                          1         #2 reset=1;
+# 
+#     71              2                          1     
+#     72              1                          1         #2 reset=0;
+# 
+#     72              2                          1     
+#     73                                               
+# 
+#     74              1                          1          #4 $stop;      
+# 
+#     74              2                          1     
+#     75                                                    end
+# 
+#     76                                               
+# 
+#     77                                                   // Monitor the signals and print values during simulation
+# 
+#     78                                                   initial begin
+# 
+#     79              1                          1             $monitor("Time=%t, reset=%b, load_weight=%d, water_level=%d", $time, reset, load_weight, water_level);
+# 
+# 
+# Toggle Coverage:
+#     Enabled Coverage              Bins      Hits    Misses  Coverage
+#     ----------------              ----      ----    ------  --------
+#     Toggles                         40        40         0   100.00%
+# 
+# ================================Toggle Details================================
+# 
+# Toggle Coverage for instance /load_size_tb --
+# 
+#                                               Node      1H->0L      0L->1H  "Coverage"
+#                                               ---------------------------------------
+#                                                clk           1           1      100.00 
+#                                   load_weight[0-7]           1           1      100.00 
+#                                              reset           1           1      100.00 
+#                                   water_level[0-9]           1           1      100.00 
+# 
+# Total Node Count     =         20 
+# Toggled Node Count   =         20 
+# Untoggled Node Count =          0 
+# 
+# Toggle Coverage      =     100.00% (40 of 40 bins)
+# 
+# 
+# Total Coverage By Instance (filtered view): 100.00%
+# 
+# End time: 00:09:31 on Nov 16,2024, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0

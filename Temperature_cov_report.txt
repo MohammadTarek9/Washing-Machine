@@ -1,0 +1,478 @@
+# QuestaSim-64 vcover 2024.1 Coverage Utility 2024.02 Feb  1 2024
+# Start time: 23:15:14 on Nov 15,2024
+# vcover report temperature2.ucdb -details -annotate -all 
+# Support of the MGLS_LICENSE_FILE and LM_LICENSE_FILE licensing environment variables will be discontinued starting with the 2025.1 release. Please update to using the SALT_LICENSE_SERVER variable.
+# Please contact Siemens EDA Customer Support (https://support.sw.siemens.com/) for assistance.
+# Coverage Report by instance with details
+# 
+# =================================================================================
+# === Instance: /temperature_incrementor_tb/dut
+# === Design Unit: work.temperature_incrementor_lut
+# =================================================================================
+# Branch Coverage:
+#     Enabled Coverage              Bins      Hits    Misses  Coverage
+#     ----------------              ----      ----    ------  --------
+#     Branches                        19        19         0   100.00%
+# 
+# ================================Branch Details================================
+# 
+# Branch Coverage for instance /temperature_incrementor_tb/dut
+# 
+#     Line         Item                      Count     Source 
+#     ----         ----                      -----     ------ 
+#   File temperature_incrementor_lut.v
+# ------------------------------------IF Branch------------------------------------
+#     21                                        62     Count coming in to IF
+#     21              1                         36             if (reset) begin
+# 
+#     35              1                         26             end else begin
+# 
+# Branch totals: 2 hits of 2 branches = 100.00%
+# 
+# ------------------------------------CASE Branch------------------------------------
+#     23                                        36     Count coming in to CASE
+#     24              1                          6                     3'd0: index <= 2'd2; // COTTON -> 40
+# 
+#     25              1                          4                     3'd1: index <= 2'd2; // SYNTHETICS -> 40
+# 
+#     26              1                          4                     3'd2: index <= 2'd3; // DRUM_CLEAN -> 60
+# 
+#     27              1                          5                     3'd3: index <= 2'd0; // QUICK_WASH -> 10
+# 
+#     28              1                          4                     3'd4: index <= 2'd2; // DAILY_WASH -> 40
+# 
+#     29              1                          4                     3'd5: index <= 2'd1; // DELICATES -> 30
+# 
+#     30              1                          4                     3'd6: index <= 2'd2; // WOOL -> 40
+# 
+#     31              1                          4                     3'd7: index <= 2'd2; // COLOURS -> 40
+# 
+#     32              1                          1                     default: index <= 2'd0;
+# 
+# Branch totals: 9 hits of 9 branches = 100.00%
+# 
+# ------------------------------------IF Branch------------------------------------
+#     37                                        26     Count coming in to IF
+#     37              1                         13                 if (increment && !increment_prev) begin
+# 
+#                                               13     All False Count
+# Branch totals: 2 hits of 2 branches = 100.00%
+# 
+# ------------------------------------IF Branch------------------------------------
+#     39                                        13     Count coming in to IF
+#     39              1                          2                     index <= (index == 2'd3) ? 2'd0 : index + 1;
+# 
+#     39              2                         11                     index <= (index == 2'd3) ? 2'd0 : index + 1;
+# 
+# Branch totals: 2 hits of 2 branches = 100.00%
+# 
+# ------------------------------------CASE Branch------------------------------------
+#     47                                        28     Count coming in to CASE
+#     48              1                          5                 2'd0: selected_temperature = TEMP_10;
+# 
+#     49              1                          5                 2'd1: selected_temperature = TEMP_30;
+# 
+#     50              1                         10                 2'd2: selected_temperature = TEMP_40;
+# 
+#     51              1                          8                 default: selected_temperature = TEMP_60;
+# 
+# Branch totals: 4 hits of 4 branches = 100.00%
+# 
+# 
+# Condition Coverage:
+#     Enabled Coverage              Bins   Covered    Misses  Coverage
+#     ----------------              ----      ----    ------  --------
+#     Conditions                       3         3         0   100.00%
+# 
+# ================================Condition Details================================
+# 
+# Condition Coverage for instance /temperature_incrementor_tb/dut --
+# 
+#   File temperature_incrementor_lut.v
+# ----------------Focused Condition View-------------------
+# Line       37 Item    1  (increment && ~increment_prev)
+# Condition totals: 2 of 2 input terms covered = 100.00%
+# 
+#       Input Term   Covered  Reason for no coverage   Hint
+#      -----------  --------  -----------------------  --------------
+#        increment         Y
+#   increment_prev         Y
+# 
+#      Rows:       Hits  FEC Target            Non-masking condition(s)      
+#  ---------  ---------  --------------------  -------------------------     
+#   Row   1:          1  increment_0           -                             
+#   Row   2:          1  increment_1           ~increment_prev               
+#   Row   3:          1  increment_prev_0      increment                     
+#   Row   4:          1  increment_prev_1      increment                     
+# 
+# ----------------Focused Condition View-------------------
+# Line       39 Item    1  (index == 3)
+# Condition totals: 1 of 1 input term covered = 100.00%
+# 
+#     Input Term   Covered  Reason for no coverage   Hint
+#    -----------  --------  -----------------------  --------------
+#   (index == 3)         Y
+# 
+#      Rows:       Hits  FEC Target            Non-masking condition(s)      
+#  ---------  ---------  --------------------  -------------------------     
+#   Row   1:          1  (index == 3)_0        -                             
+#   Row   2:          1  (index == 3)_1        -                             
+# 
+# 
+# Statement Coverage:
+#     Enabled Coverage              Bins      Hits    Misses  Coverage
+#     ----------------              ----      ----    ------  --------
+#     Statements                      18        18         0   100.00%
+# 
+# ================================Statement Details================================
+# 
+# Statement Coverage for instance /temperature_incrementor_tb/dut --
+# 
+#     Line         Item                      Count     Source 
+#     ----         ----                      -----     ------ 
+#   File temperature_incrementor_lut.v
+#     1                                                module temperature_incrementor_lut(
+# 
+#     2                                                    input clk,                           // Clock input
+# 
+#     3                                                    input reset,                         // Reset input to initialize `index`
+# 
+#     4                                                    input [2:0] wash_mode,               // Input for wash mode selection
+# 
+#     5                                                    input increment,                     // Input signal to trigger index increment
+# 
+#     6                                                    output reg [5:0] selected_temperature // Output for selected temperature
+# 
+#     7                                                );
+# 
+#     8                                                
+# 
+#     9                                                    // Parameters for temperatures
+# 
+#     10                                                   parameter [5:0] TEMP_10 = 6'd10;
+# 
+#     11                                                   parameter [5:0] TEMP_30 = 6'd30;
+# 
+#     12                                                   parameter [5:0] TEMP_40 = 6'd40;
+# 
+#     13                                                   parameter [5:0] TEMP_60 = 6'd60;
+# 
+#     14                                               
+# 
+#     15                                                   // Variables
+# 
+#     16                                                   reg [1:0] index;                     // Holds the mapped index for the current wash mode
+# 
+#     17                                                   reg increment_prev;                  // To detect positive edge of `increment`
+# 
+#     18                                               
+# 
+#     19                                                   // Edge detection and index increment
+# 
+#     20              1                         62         always @(posedge clk or posedge reset) begin
+# 
+#     21                                                       if (reset) begin
+# 
+#     22                                                           // Initialize index based on the wash_mode
+# 
+#     23                                                           case (wash_mode)
+# 
+#     24              1                          6                     3'd0: index <= 2'd2; // COTTON -> 40
+# 
+#     25              1                          4                     3'd1: index <= 2'd2; // SYNTHETICS -> 40
+# 
+#     26              1                          4                     3'd2: index <= 2'd3; // DRUM_CLEAN -> 60
+# 
+#     27              1                          5                     3'd3: index <= 2'd0; // QUICK_WASH -> 10
+# 
+#     28              1                          4                     3'd4: index <= 2'd2; // DAILY_WASH -> 40
+# 
+#     29              1                          4                     3'd5: index <= 2'd1; // DELICATES -> 30
+# 
+#     30              1                          4                     3'd6: index <= 2'd2; // WOOL -> 40
+# 
+#     31              1                          4                     3'd7: index <= 2'd2; // COLOURS -> 40
+# 
+#     32              1                          1                     default: index <= 2'd0;
+# 
+#     33                                                           endcase
+# 
+#     34              1                         36                 increment_prev <= 0; // Initialize the previous increment signal for edge detection
+# 
+#     35                                                       end else begin
+# 
+#     36                                                           // Detect positive edge of `increment`
+# 
+#     37                                                           if (increment && !increment_prev) begin
+# 
+#     38                                                               // Increment `index` with wrap-around
+# 
+#     39              1                         13                     index <= (index == 2'd3) ? 2'd0 : index + 1;
+# 
+#     40                                                           end
+# 
+#     41              1                         26                 increment_prev <= increment;
+# 
+#     42                                                       end
+# 
+#     43                                                   end
+# 
+#     44                                               
+# 
+#     45                                                   // Assign the selected temperature based on the current index
+# 
+#     46              1                         28         always @(*) begin
+# 
+#     47                                                       case (index)
+# 
+#     48              1                          5                 2'd0: selected_temperature = TEMP_10;
+# 
+#     49              1                          5                 2'd1: selected_temperature = TEMP_30;
+# 
+#     50              1                         10                 2'd2: selected_temperature = TEMP_40;
+# 
+#     51              1                          8                 default: selected_temperature = TEMP_60;
+# 
+# 
+# Toggle Coverage:
+#     Enabled Coverage              Bins      Hits    Misses  Coverage
+#     ----------------              ----      ----    ------  --------
+#     Toggles                         30        26         4    86.66%
+# 
+# ================================Toggle Details================================
+# 
+# Toggle Coverage for instance /temperature_incrementor_tb/dut --
+# 
+#                                               Node      1H->0L      0L->1H  "Coverage"
+#                                               ---------------------------------------
+#                                                clk           1           1      100.00 
+#                                          increment           1           1      100.00 
+#                                     increment_prev           1           1      100.00 
+#                                         index[0-1]           1           1      100.00 
+#                                              reset           1           1      100.00 
+#                            selected_temperature[0]           0           0        0.00 
+#                          selected_temperature[1-2]           1           1      100.00 
+#                            selected_temperature[3]           0           0        0.00 
+#                          selected_temperature[4-5]           1           1      100.00 
+#                                     wash_mode[0-2]           1           1      100.00 
+# 
+# Total Node Count     =         15 
+# Toggled Node Count   =         13 
+# Untoggled Node Count =          2 
+# 
+# Toggle Coverage      =      86.66% (26 of 30 bins)
+# 
+# =================================================================================
+# === Instance: /temperature_incrementor_tb
+# === Design Unit: work.temperature_incrementor_tb
+# =================================================================================
+# Statement Coverage:
+#     Enabled Coverage              Bins      Hits    Misses  Coverage
+#     ----------------              ----      ----    ------  --------
+#     Statements                      55        55         0   100.00%
+# 
+# ================================Statement Details================================
+# 
+# Statement Coverage for instance /temperature_incrementor_tb --
+# 
+#     Line         Item                      Count     Source 
+#     ----         ----                      -----     ------ 
+#   File temperature_incrementor_tb.v
+#     2                                                module temperature_incrementor_tb();
+# 
+#     3                                                    reg clk;
+# 
+#     4                                                    reg reset;
+# 
+#     5                                                    reg [2:0] wash_mode;
+# 
+#     6                                                    reg increment;
+# 
+#     7                                                    wire [5:0] selected_temperature;
+# 
+#     8                                                    reg [3:0] i;
+# 
+#     9                                                    reg [1:0] j;
+# 
+#     10                                                   temperature_incrementor_lut dut(
+# 
+#     11                                                       .clk(clk),
+# 
+#     12                                                       .reset(reset),
+# 
+#     13                                                       .wash_mode(wash_mode),
+# 
+#     14                                                       .increment(increment),
+# 
+#     15                                                       .selected_temperature(selected_temperature)
+# 
+#     16                                                   );
+# 
+#     17                                               
+# 
+#     18                                                   initial begin
+# 
+#     19              1                          1         clk = 0;
+# 
+#     20              1                          1         forever begin
+# 
+#     21              1                        100             #1 clk = ~clk;
+# 
+#     21              2                         99     
+#     22                                                   end
+# 
+#     23                                                   end
+# 
+#     24                                               
+# 
+#     25                                                   initial begin
+# 
+#     26                                                       //$dumpfile("temperature_incrementor_tb.vcd");
+# 
+#     27              1                          1             $dumpvars(0, temperature_incrementor_tb);
+# 
+#     28                                                       //checking that incrementing to the next temperature works correctly and correctly selected for each wash mode
+# 
+#     29              1                          1             reset = 1;
+# 
+#     30              1                          1             increment = 0;
+# 
+#     31              1                          1             wash_mode = 3'd0;
+# 
+#     32              1                          1             #2 for (i = 0; i < 8; i = i + 1) begin
+# 
+#     32              2                          1     
+#     32              3                          8     
+#     33              1                          8                 wash_mode = i;
+# 
+#     34              1                          8                 for (j = 0; j < 2; j = j + 1) begin
+# 
+#     34              2                         16     
+#     35              1                         16                 increment = j;
+# 
+#     36              1                         16                 reset = 0;
+# 
+#     37              1                         16                 #2 reset = 1;
+# 
+#     37              2                         16     
+#     38              1                         16                 #2;
+# 
+#     39                                                           end
+# 
+#     40                                                       end
+# 
+#     41                                                       //checking that it can increment through all temperatures
+# 
+#     42              1                          1             #2 
+# 
+#     43              1                          1             reset=1;
+# 
+#     44              1                          1             wash_mode=3'bx;
+# 
+#     45              1                          1             #2
+# 
+#     46              1                          1             reset=1;
+# 
+#     47              1                          1             wash_mode=3'd3;
+# 
+#     48              1                          1             #2
+# 
+#     49              1                          1             reset=0;
+# 
+#     50              1                          1             increment=1;
+# 
+#     51              1                          1             #2
+# 
+#     52              1                          1             increment=0;
+# 
+#     53              1                          1             #2
+# 
+#     54              1                          1             increment=1;
+# 
+#     55              1                          1             #2
+# 
+#     56              1                          1             increment=0;
+# 
+#     57              1                          1             #2
+# 
+#     58              1                          1             increment=1;
+# 
+#     59              1                          1             #2
+# 
+#     60              1                          1             increment=0;
+# 
+#     61              1                          1             #2
+# 
+#     62              1                          1             increment=1;
+# 
+#     63              1                          1             #2
+# 
+#     64              1                          1             increment=0;
+# 
+#     65              1                          1             #2
+# 
+#     66              1                          1             increment=1;
+# 
+#     67              1                          1             #2
+# 
+#     68              1                          1             increment=1;
+# 
+#     69              1                          1             #2
+# 
+#     70              1                          1             increment=1;
+# 
+#     71              1                          1             #2
+# 
+#     72              1                          1             increment=1;
+# 
+#     73              1                          1             #2
+# 
+#     74              1                          1             increment=1;
+# 
+#     75              1                          1             #4 $stop;
+# 
+#     75              2                          1     
+#     76                                                   end
+# 
+#     77                                                          
+# 
+#     78                                                   initial begin
+# 
+#     79              1                          1             $monitor("Time=%t, reset=%b, wash_mode=%b, increment=%b, selected_temperature=%d", $time, reset, wash_mode, increment, selected_temperature);
+# 
+# 
+# Toggle Coverage:
+#     Enabled Coverage              Bins      Hits    Misses  Coverage
+#     ----------------              ----      ----    ------  --------
+#     Toggles                         36        30         6    83.33%
+# 
+# ================================Toggle Details================================
+# 
+# Toggle Coverage for instance /temperature_incrementor_tb --
+# 
+#                                               Node      1H->0L      0L->1H  "Coverage"
+#                                               ---------------------------------------
+#                                                clk           1           1      100.00 
+#                                             i[0-2]           1           1      100.00 
+#                                               i[3]           0           1       50.00 
+#                                          increment           1           1      100.00 
+#                                               j[0]           1           1      100.00 
+#                                               j[1]           0           1       50.00 
+#                                              reset           1           1      100.00 
+#                            selected_temperature[0]           0           0        0.00 
+#                          selected_temperature[1-2]           1           1      100.00 
+#                            selected_temperature[3]           0           0        0.00 
+#                          selected_temperature[4-5]           1           1      100.00 
+#                                     wash_mode[0-2]           1           1      100.00 
+# 
+# Total Node Count     =         18 
+# Toggled Node Count   =         14 
+# Untoggled Node Count =          4 
+# 
+# Toggle Coverage      =      83.33% (30 of 36 bins)
+# 
+# 
+# Total Coverage By Instance (filtered view): 96.21%
+# 
+# End time: 23:15:14 on Nov 15,2024, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0

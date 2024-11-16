@@ -80,7 +80,24 @@ module water_flow_tb;
         repeat(10) begin
             #2 water_level_sensor = water_level_sensor - 10'd5; // Decrease water level by less than THRESHOLD
         end
-        
+        //testing that both modes work together
+        #2 reset=1;
+        mode=1;
+        water_level_sensor = 10'd60;
+        repeat(5) begin
+            #2 water_level_sensor = water_level_sensor + 10'd20; // Increase water level
+        end
+        #2 reset=1;
+        #2 reset=0;
+        mode=0;
+        repeat(5) begin
+            #2 water_level_sensor = water_level_sensor - 10'd20; // Decrease water level
+        end
+        //high water level sensors
+        #2 water_level_sensor = 10'd800;
+        repeat(5) begin
+            #2 water_level_sensor = water_level_sensor - 10'd20; // Derease water level
+        end
        #4 $stop;
     end
    initial begin

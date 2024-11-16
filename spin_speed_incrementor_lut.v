@@ -48,8 +48,7 @@ module spin_speed_incrementor_lut(
             2'd0: selected_spin_speed = SPEED_400;
             2'd1: selected_spin_speed = SPEED_800;
             2'd2: selected_spin_speed = SPEED_1200;
-            2'd3: selected_spin_speed = SPEED_1400;
-            default: selected_spin_speed = SPEED_400;
+            default: selected_spin_speed = SPEED_1400;
         endcase
     end
 

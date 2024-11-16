@@ -30,38 +30,48 @@ initial begin
     #2 reset = 0;
 
     // Test Case 1: Low water level (load_weight <= LOW_THRESHOLD)
-    #2 load_weight = 8'd10;
+    #2 load_weight = 8'd10; // 00001010
     #2; // Wait and check water_level output
 
     // Test Case 2: Medium water level (LOW_THRESHOLD < load_weight <= MEDIUM_THRESHOLD)
-    #2 load_weight = 8'd30;
+    #2 load_weight = 8'd30; // 00011110
     #2; // Wait and check water_level output
 
     // Test Case 3: High water level (MEDIUM_THRESHOLD < load_weight <= HIGH_THRESHOLD)
-    #2 load_weight = 8'd60;
+    #2 load_weight = 8'd60; // 00111100
     #2; // Wait and check water_level output
 
     // Test Case 4: Extra High water level (load_weight > HIGH_THRESHOLD)
-    #2 load_weight = 8'd90;
+    #2 load_weight = 8'd90; // 01011010
     #2; // Wait and check water_level output
 
     // Test Case 5: (load_weight = LOW_THRESHOLD)
-    #2 load_weight = 8'd20;
+    #2 load_weight = 8'd20; // 00010100
     #2; // Wait and check water_level output
 
     // Test Case 6:  (load_weight = MEDIUM_THRESHOLD)
-    #2 load_weight = 8'd50;
+    #2 load_weight = 8'd50; // 00110010
     #2; // Wait and check water_level output
 
     // Test Case 7:  (load_weight = HIGH_THRESHOLD)
-    #2 load_weight = 8'd80;
+    #2 load_weight = 8'd80; // 01010000
     #2; // Wait and check water_level output
 
-    // Test Case 8:
-    #2 load_weight = 8'd25; // Medium load weight
+    // Test Case 8: Medium load weight
+    #2 load_weight = 8'd25; // 00011001
     #2; // Wait and check water_level output
 
-     $stop;      
+    // Additional Test Case 9: Toggle all bits
+    #2 load_weight = 8'd255; // 11111111
+    #2; // Wait and check water_level output
+
+    // Additional Test Case 10: Toggle all bits back to 0
+    #2 load_weight = 8'd0; // 00000000
+    #2; // Wait and check water_level output
+    #2 reset=1;
+    #2 reset=0;
+
+     #4 $stop;      
      end
 
     // Monitor the signals and print values during simulation

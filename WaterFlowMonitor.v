@@ -12,7 +12,7 @@ module WaterFlowMonitor (
 
     // Internal registers
     reg [9:0] previous_level;             // Stores previous water level
-    reg [31:0] counter;                   // Counter for time limit
+    reg [2:0] counter;       //changed            // Counter for time limit
 
     // Process block
     always @(posedge clk or posedge reset) begin

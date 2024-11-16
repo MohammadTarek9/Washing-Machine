@@ -4,8 +4,9 @@ module temperature_incrementor_tb();
     reg reset;
     reg [2:0] wash_mode;
     reg increment;
-    wire [6:0] selected_temperature;
-    integer i, j;
+    wire [5:0] selected_temperature;
+    reg [3:0] i;
+    reg [1:0] j;
     temperature_incrementor_lut dut(
         .clk(clk),
         .reset(reset),
@@ -38,6 +39,9 @@ module temperature_incrementor_tb();
             end
         end
         //checking that it can increment through all temperatures
+        #2 
+        reset=1;
+        wash_mode=3'bx;
         #2
         reset=1;
         wash_mode=3'd3;
@@ -58,6 +62,16 @@ module temperature_incrementor_tb();
         increment=1;
         #2
         increment=0;
+        #2
+        increment=1;
+        #2
+        increment=1;
+        #2
+        increment=1;
+        #2
+        increment=1;
+        #2
+        increment=1;
         #4 $stop;
     end
            

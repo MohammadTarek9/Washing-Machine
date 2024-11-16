@@ -11,7 +11,7 @@ parameter MEDIUM_THRESHOLD = 8'd50; // 50 units of weight for Medium water level
 parameter HIGH_THRESHOLD = 8'd80;   // 80 units of weight for High water level
 
 // State machine to control water level
-parameter LOW_SENSOR_VALUE = 10'd150;    // Sensor reading for Low water level
+parameter LOW_SENSOR_VALUE = 10'd175;    // Sensor reading for Low water level
 parameter MEDIUM_SENSOR_VALUE = 10'd300; // Sensor reading for Medium water level
 parameter HIGH_SENSOR_VALUE = 10'd600;   // Sensor reading for High water level
 parameter EXTRA_HIGH_SENSOR_VALUE = 10'd900; // Sensor reading for Extra High water level

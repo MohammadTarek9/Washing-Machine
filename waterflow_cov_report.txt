@@ -1,0 +1,553 @@
+# QuestaSim-64 vcover 2024.1 Coverage Utility 2024.02 Feb  1 2024
+# Start time: 00:50:07 on Nov 16,2024
+# vcover report waterflow2.ucdb -details -annotate -all 
+# Support of the MGLS_LICENSE_FILE and LM_LICENSE_FILE licensing environment variables will be discontinued starting with the 2025.1 release. Please update to using the SALT_LICENSE_SERVER variable.
+# Please contact Siemens EDA Customer Support (https://support.sw.siemens.com/) for assistance.
+# Coverage Report by instance with details
+# 
+# =================================================================================
+# === Instance: /water_flow_tb/uut
+# === Design Unit: work.WaterFlowMonitor
+# =================================================================================
+# Branch Coverage:
+#     Enabled Coverage              Bins      Hits    Misses  Coverage
+#     ----------------              ----      ----    ------  --------
+#     Branches                        12        12         0   100.00%
+# 
+# ================================Branch Details================================
+# 
+# Branch Coverage for instance /water_flow_tb/uut
+# 
+#     Line         Item                      Count     Source 
+#     ----         ----                      -----     ------ 
+#   File WaterFlowMonitor.v
+# ------------------------------------IF Branch------------------------------------
+#     19                                        78     Count coming in to IF
+#     19              1                         16             if (reset) begin
+# 
+#     24              1                         62             end else begin
+# 
+# Branch totals: 2 hits of 2 branches = 100.00%
+# 
+# ------------------------------------IF Branch------------------------------------
+#     25                                        62     Count coming in to IF
+#     25              1                         24                 if (mode) begin
+# 
+#     40              1                         38                 end else begin
+# 
+# Branch totals: 2 hits of 2 branches = 100.00%
+# 
+# ------------------------------------IF Branch------------------------------------
+#     27                                        24     Count coming in to IF
+#     27              1                          5                     if (water_level_sensor > previous_level + THRESHOLD) begin
+# 
+#     32              1                         19                     end else begin
+# 
+# Branch totals: 2 hits of 2 branches = 100.00%
+# 
+# ------------------------------------IF Branch------------------------------------
+#     33                                        19     Count coming in to IF
+#     33              1                          8                         if (counter >= TIME_LIMIT) begin
+# 
+#     36              1                         11                         end else begin
+# 
+# Branch totals: 2 hits of 2 branches = 100.00%
+# 
+# ------------------------------------IF Branch------------------------------------
+#     42                                        38     Count coming in to IF
+#     42              1                          7                     if (water_level_sensor < previous_level - THRESHOLD) begin
+# 
+#     47              1                         31                     end else begin
+# 
+# Branch totals: 2 hits of 2 branches = 100.00%
+# 
+# ------------------------------------IF Branch------------------------------------
+#     48                                        31     Count coming in to IF
+#     48              1                         10                         if (counter >= TIME_LIMIT) begin
+# 
+#     51              1                         21                         end else begin
+# 
+# Branch totals: 2 hits of 2 branches = 100.00%
+# 
+# 
+# Condition Coverage:
+#     Enabled Coverage              Bins   Covered    Misses  Coverage
+#     ----------------              ----      ----    ------  --------
+#     Conditions                       4         4         0   100.00%
+# 
+# ================================Condition Details================================
+# 
+# Condition Coverage for instance /water_flow_tb/uut --
+# 
+#   File WaterFlowMonitor.v
+# ----------------Focused Condition View-------------------
+# Line       27 Item    1  (water_level_sensor > (previous_level + 10))
+# Condition totals: 1 of 1 input term covered = 100.00%
+# 
+#                                     Input Term   Covered  Reason for no coverage   Hint
+#                                    -----------  --------  -----------------------  --------------
+#   (water_level_sensor > (previous_level + 10))         Y
+# 
+#      Rows:       Hits  FEC Target                                      Non-masking condition(s)      
+#  ---------  ---------  --------------------                            -------------------------     
+#   Row   1:          1  (water_level_sensor > (previous_level + 10))_0  -                             
+#   Row   2:          1  (water_level_sensor > (previous_level + 10))_1  -                             
+# 
+# ----------------Focused Condition View-------------------
+# Line       33 Item    1  (counter >= 5)
+# Condition totals: 1 of 1 input term covered = 100.00%
+# 
+#       Input Term   Covered  Reason for no coverage   Hint
+#      -----------  --------  -----------------------  --------------
+#   (counter >= 5)         Y
+# 
+#      Rows:       Hits  FEC Target            Non-masking condition(s)      
+#  ---------  ---------  --------------------  -------------------------     
+#   Row   1:          1  (counter >= 5)_0      -                             
+#   Row   2:          1  (counter >= 5)_1      -                             
+# 
+# ----------------Focused Condition View-------------------
+# Line       42 Item    1  (water_level_sensor < (previous_level - 10))
+# Condition totals: 1 of 1 input term covered = 100.00%
+# 
+#                                     Input Term   Covered  Reason for no coverage   Hint
+#                                    -----------  --------  -----------------------  --------------
+#   (water_level_sensor < (previous_level - 10))         Y
+# 
+#      Rows:       Hits  FEC Target                                      Non-masking condition(s)      
+#  ---------  ---------  --------------------                            -------------------------     
+#   Row   1:          1  (water_level_sensor < (previous_level - 10))_0  -                             
+#   Row   2:          1  (water_level_sensor < (previous_level - 10))_1  -                             
+# 
+# ----------------Focused Condition View-------------------
+# Line       48 Item    1  (counter >= 5)
+# Condition totals: 1 of 1 input term covered = 100.00%
+# 
+#       Input Term   Covered  Reason for no coverage   Hint
+#      -----------  --------  -----------------------  --------------
+#   (counter >= 5)         Y
+# 
+#      Rows:       Hits  FEC Target            Non-masking condition(s)      
+#  ---------  ---------  --------------------  -------------------------     
+#   Row   1:          1  (counter >= 5)_0      -                             
+#   Row   2:          1  (counter >= 5)_1      -                             
+# 
+# 
+# Statement Coverage:
+#     Enabled Coverage              Bins      Hits    Misses  Coverage
+#     ----------------              ----      ----    ------  --------
+#     Statements                      14        14         0   100.00%
+# 
+# ================================Statement Details================================
+# 
+# Statement Coverage for instance /water_flow_tb/uut --
+# 
+#     Line         Item                      Count     Source 
+#     ----         ----                      -----     ------ 
+#   File WaterFlowMonitor.v
+#     1                                                module WaterFlowMonitor (
+# 
+#     2                                                    input wire clk,                    // System clock
+# 
+#     3                                                    input wire reset,                  // Reset signal
+# 
+#     4                                                    input wire [9:0] water_level_sensor,  // Water level sensor input
+# 
+#     5                                                    input wire mode,                   // Mode: 1 for filling, 0 for draining
+# 
+#     6                                                    output reg error_flag              // Error flag output
+# 
+#     7                                                );
+# 
+#     8                                                
+# 
+#     9                                                    // Parameters for threshold and time limit
+# 
+#     10                                                   parameter THRESHOLD = 10;     // Minimum level change required
+# 
+#     11                                                   parameter TIME_LIMIT = 5;  // Number of clock cycles to wait for change
+# 
+#     12                                               
+# 
+#     13                                                   // Internal registers
+# 
+#     14                                                   reg [9:0] previous_level;             // Stores previous water level
+# 
+#     15                                                   reg [2:0] counter;       //changed            // Counter for time limit
+# 
+#     16                                               
+# 
+#     17                                                   // Process block
+# 
+#     18              1                         78         always @(posedge clk or posedge reset) begin
+# 
+#     19                                                       if (reset) begin
+# 
+#     20                                                           // Reset all registers and flag
+# 
+#     21              1                         16                 previous_level <= water_level_sensor;
+# 
+#     22              1                         16                 counter <= 0;
+# 
+#     23              1                         16                 error_flag <= 0;
+# 
+#     24                                                       end else begin
+# 
+#     25                                                           if (mode) begin
+# 
+#     26                                                               // Filling mode: Expect an increase in water level
+# 
+#     27                                                               if (water_level_sensor > previous_level + THRESHOLD) begin
+# 
+#     28                                                                   // Water level increased by the required threshold
+# 
+#     29              1                          5                         previous_level <= water_level_sensor;
+# 
+#     30              1                          5                         counter <= 0;         // Reset counter on valid increase
+# 
+#     31              1                          5                         error_flag <= 0;      // Clear error flag
+# 
+#     32                                                               end else begin
+# 
+#     33                                                                   if (counter >= TIME_LIMIT) begin
+# 
+#     34                                                                       // If counter exceeds time limit and no valid increase
+# 
+#     35              1                          8                             error_flag <= 1;  // Set error flag
+# 
+#     36                                                                   end else begin
+# 
+#     37              1                         11                             counter <= counter + 1; // Increment counter
+# 
+#     38                                                                   end
+# 
+#     39                                                               end
+# 
+#     40                                                           end else begin
+# 
+#     41                                                               // Draining mode: Expect a decrease in water level
+# 
+#     42                                                               if (water_level_sensor < previous_level - THRESHOLD) begin
+# 
+#     43                                                                   // Water level decreased by the required threshold
+# 
+#     44              1                          7                         previous_level <= water_level_sensor;
+# 
+#     45              1                          7                         counter <= 0;         // Reset counter on valid decrease
+# 
+#     46              1                          7                         error_flag <= 0;      // Clear error flag
+# 
+#     47                                                               end else begin
+# 
+#     48                                                                   if (counter >= TIME_LIMIT) begin
+# 
+#     49                                                                       // If counter exceeds time limit and no valid decrease
+# 
+#     50              1                         10                             error_flag <= 1;  // Set error flag
+# 
+#     51                                                                   end else begin
+# 
+#     52              1                         21                             counter <= counter + 1; // Increment counter
+# 
+# 
+# Toggle Coverage:
+#     Enabled Coverage              Bins      Hits    Misses  Coverage
+#     ----------------              ----      ----    ------  --------
+#     Toggles                         54        46         8    85.18%
+# 
+# ================================Toggle Details================================
+# 
+# Toggle Coverage for instance /water_flow_tb/uut --
+# 
+#                                               Node      1H->0L      0L->1H  "Coverage"
+#                                               ---------------------------------------
+#                                                clk           1           1      100.00 
+#                                       counter[0-2]           1           1      100.00 
+#                                         error_flag           1           1      100.00 
+#                                               mode           1           1      100.00 
+#                                  previous_level[0]           0           0        0.00 
+#                                  previous_level[1]           1           0       50.00 
+#                                previous_level[2-7]           1           1      100.00 
+#                                previous_level[8-9]           0           0        0.00 
+#                                              reset           1           1      100.00 
+#                            water_level_sensor[0-8]           1           1      100.00 
+#                              water_level_sensor[9]           0           1       50.00 
+# 
+# Total Node Count     =         27 
+# Toggled Node Count   =         22 
+# Untoggled Node Count =          5 
+# 
+# Toggle Coverage      =      85.18% (46 of 54 bins)
+# 
+# =================================================================================
+# === Instance: /water_flow_tb
+# === Design Unit: work.water_flow_tb
+# =================================================================================
+# Statement Coverage:
+#     Enabled Coverage              Bins      Hits    Misses  Coverage
+#     ----------------              ----      ----    ------  --------
+#     Statements                      68        68         0   100.00%
+# 
+# ================================Statement Details================================
+# 
+# Statement Coverage for instance /water_flow_tb --
+# 
+#     Line         Item                      Count     Source 
+#     ----         ----                      -----     ------ 
+#   File water_flow_tb.v
+#     3                                                module water_flow_tb;
+# 
+#     4                                                
+# 
+#     5                                                    // ports
+# 
+#     6                                                    reg clk;
+# 
+#     7                                                    reg reset;
+# 
+#     8                                                    reg [9:0] water_level_sensor;
+# 
+#     9                                                    reg mode; // 1 for filling, 0 for draining
+# 
+#     10                                                   
+# 
+#     11                                                   wire error_flag;
+# 
+#     12                                               
+# 
+#     13                                                   WaterFlowMonitor uut (
+# 
+#     14                                                       .clk(clk),
+# 
+#     15                                                       .reset(reset),
+# 
+#     16                                                       .water_level_sensor(water_level_sensor),
+# 
+#     17                                                       .mode(mode),
+# 
+#     18                                                       .error_flag(error_flag)
+# 
+#     19                                                   );
+# 
+#     20                                               
+# 
+#     21                                                   // Clock signals , same for all the tb modules after 5ms
+# 
+#     22                                                   initial begin
+# 
+#     23              1                          1             clk = 0;
+# 
+#     24              1                          1             forever #1 clk = ~clk; 
+# 
+#     24              2                        158     
+#     24              3                        157     
+#     25                                                   end
+# 
+#     26                                               
+# 
+#     27                                                   // Test sequence
+# 
+#     28                                                   initial begin
+# 
+#     29                                               	//$dumpfile("WaterFlowMonitor_tb.vcd");
+# 
+#     30              1                          1             $dumpvars(0, water_flow_tb);
+# 
+#     31              1                          1             reset = 1;
+# 
+#     32              1                          1             mode = 1;                // Start with filling mode
+# 
+#     33              1                          1             water_level_sensor = 10'd50; // Initial water level
+# 
+#     34              1                          1             #2 reset = 0;           // Release reset
+# 
+#     34              2                          1     
+#     35                                               
+# 
+#     36                                                       // 1. Test normal operation in filling mode
+# 
+#     37                                                       // Expect no error, water level should increase
+# 
+#     38              1                          5             repeat(5) begin
+# 
+#     39              1                          5                 #2 water_level_sensor = water_level_sensor + 10'd20; // Increase water level
+# 
+#     39              2                          5     
+#     40                                                       end
+# 
+#     41                                               
+# 
+#     42                                                       // 2. Test insufficient increase in filling mode
+# 
+#     43                                                       // Hold water level constant to trigger error flag
+# 
+#     44              1                          1             #2 water_level_sensor = water_level_sensor;
+# 
+#     44              2                          1     
+#     45              1                          1             #20; // Wait for TIME_LIMIT cycles (adjust based on TIME_LIMIT value in module)
+# 
+#     46                                                       //$display("Error Flag (Filling mode, no increase): %d", error_flag);
+# 
+#     47                                               
+# 
+#     48                                                       // 3. Switch to draining mode and reset
+# 
+#     49              1                          1             reset = 1;
+# 
+#     50              1                          1             #2 reset = 0;
+# 
+#     50              2                          1     
+#     51              1                          1             mode = 0;               // Set mode to draining
+# 
+#     52              1                          1             #2 water_level_sensor = 10'd200; // New starting water level
+# 
+#     52              2                          1     
+#     53                                               
+# 
+#     54                                                       // 4. Test normal operation in draining mode
+# 
+#     55                                               
+# 
+#     56              1                          5             repeat(5) begin
+# 
+#     57              1                          5                 #2 water_level_sensor = water_level_sensor - 10'd20; // Decrease water level
+# 
+#     57              2                          5     
+#     58                                                       end
+# 
+#     59                                               
+# 
+#     60                                                       // 5. Test insufficient decrease in draining mode
+# 
+#     61              1                          1             #2 water_level_sensor = water_level_sensor;
+# 
+#     61              2                          1     
+#     62              1                          1             #20; // Wait for TIME_LIMIT cycles
+# 
+#     63                                                       //$display("Error Flag (Draining mode, no decrease): %d", error_flag);
+# 
+#     64                                               
+# 
+#     65                                                       // 6. Test mode change handling
+# 
+#     66              1                          1             reset = 1;
+# 
+#     67              1                          1             #2 reset = 0;
+# 
+#     67              2                          1     
+#     68              1                          1             mode = 1;                // Switch back to filling mode
+# 
+#     69              1                          1             water_level_sensor = 10'd50; // Reset water level for filling mode
+# 
+#     70              1                         10             repeat(10) begin
+# 
+#     71              1                         10                 #2 water_level_sensor = water_level_sensor + 10'd5; // Increase water level by less than THRESHOLD
+# 
+#     71              2                         10     
+#     72                                                       end
+# 
+#     73                                                       //#2 water_level_sensor = water_level_sensor + 10'd15; // Increment by less than THRESHOLD
+# 
+#     74                                                       //#20; // Wait for TIME_LIMIT cycles
+# 
+#     75                                                       //$display("Error Flag (Filling mode, insufficient increment): %d", error_flag);
+# 
+#     76              1                          1             #2 reset=1;
+# 
+#     76              2                          1     
+#     77              1                          1             #2 reset=0;
+# 
+#     77              2                          1     
+#     78              1                          1             mode=0;
+# 
+#     79              1                          1             water_level_sensor=10'd200;
+# 
+#     80              1                         10             repeat(10) begin
+# 
+#     81              1                         10                 #2 water_level_sensor = water_level_sensor - 10'd5; // Decrease water level by less than THRESHOLD
+# 
+#     81              2                         10     
+#     82                                                       end
+# 
+#     83                                                       //testing that both modes work together
+# 
+#     84              1                          1             #2 reset=1;
+# 
+#     84              2                          1     
+#     85              1                          1             mode=1;
+# 
+#     86              1                          1             water_level_sensor = 10'd60;
+# 
+#     87              1                          5             repeat(5) begin
+# 
+#     88              1                          5                 #2 water_level_sensor = water_level_sensor + 10'd20; // Increase water level
+# 
+#     88              2                          5     
+#     89                                                       end
+# 
+#     90              1                          1             #2 reset=1;
+# 
+#     90              2                          1     
+#     91              1                          1             #2 reset=0;
+# 
+#     91              2                          1     
+#     92              1                          1             mode=0;
+# 
+#     93              1                          5             repeat(5) begin
+# 
+#     94              1                          5                 #2 water_level_sensor = water_level_sensor - 10'd20; // Decrease water level
+# 
+#     94              2                          5     
+#     95                                                       end
+# 
+#     96                                                       //high water level sensors
+# 
+#     97              1                          1             #2 water_level_sensor = 10'd800;
+# 
+#     97              2                          1     
+#     98              1                          5             repeat(5) begin
+# 
+#     99              1                          5                 #2 water_level_sensor = water_level_sensor - 10'd20; // Derease water level
+# 
+#     99              2                          5     
+#     100                                                      end
+# 
+#     101             1                          1            #4 $stop;
+# 
+#     101             2                          1     
+#     102                                                  end
+# 
+#     103                                                 initial begin
+# 
+#     104             1                          1             $monitor("Time=%t, reset=%b, mode=%b, water_level_sensor=%d, error_flag=%b", 
+# 
+# 
+# Toggle Coverage:
+#     Enabled Coverage              Bins      Hits    Misses  Coverage
+#     ----------------              ----      ----    ------  --------
+#     Toggles                         28        27         1    96.42%
+# 
+# ================================Toggle Details================================
+# 
+# Toggle Coverage for instance /water_flow_tb --
+# 
+#                                               Node      1H->0L      0L->1H  "Coverage"
+#                                               ---------------------------------------
+#                                                clk           1           1      100.00 
+#                                         error_flag           1           1      100.00 
+#                                               mode           1           1      100.00 
+#                                              reset           1           1      100.00 
+#                            water_level_sensor[0-8]           1           1      100.00 
+#                              water_level_sensor[9]           0           1       50.00 
+# 
+# Total Node Count     =         14 
+# Toggled Node Count   =         13 
+# Untoggled Node Count =          1 
+# 
+# Toggle Coverage      =      96.42% (27 of 28 bins)
+# 
+# 
+# Total Coverage By Instance (filtered view): 97.25%
+# 
+# End time: 00:50:07 on Nov 16,2024, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0

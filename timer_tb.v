@@ -11,7 +11,7 @@ timer dut(clk, reset, enable, clk_freq, timer_period, done);
 
 //Creating clock
 initial begin
-    clk = 1;
+    clk = 0; //check this
     forever begin
         #1 clk = ~clk;
     end

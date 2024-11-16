@@ -27,12 +27,12 @@ module Washing_Machine(
 
 //wash time, changing between discrete values
 //all possible temperature values
-parameter [6:0] temperature_10=7'd10;
-parameter [6:0] temperature_20=7'd20;
-parameter [6:0] temperature_30=7'd30;
-parameter [6:0] temperature_40=7'd40;
-parameter [6:0] temperature_60=7'd60;
-parameter [6:0] temperature_90=7'd90;
+parameter [5:0] temperature_10=6'd10;
+parameter [5:0] temperature_20=6'd20;
+parameter [5:0] temperature_30=6'd30;
+parameter [5:0] temperature_40=6'd40;
+parameter [5:0] temperature_60=6'd60;
+//parameter [5:0] temperature_90=7'd90;
 
 //all possible spin speeds
 parameter [10:0] no_spin_speed = 11'd0;
