@@ -6,10 +6,12 @@ module Washing_Machine(
     input pause,
     input continue_signal,
     input door_locked,  //(1=locked, 0=unlocked)
+    input clothes_loaded,
     input [7:0] load_weight,
     input vibration_sensor, //1 for excessive vibration
     input [6:0] temperature_adc_sensor, //temperature sensor ADC output
     input [2:0] wash_mode,  //wash mode for the wm
+    input confirm_wash_mode,
     input change_temperature,
     input change_spin_speed,
     input [9:0] water_level_sensor, //sensor for water level
@@ -59,7 +61,7 @@ parameter [3:0] PAUSE = 4'b1011;
 parameter [3:0] CANCEL_DRAIN = 4'b1101;  // New state for handling cancel drain
 
 reg [3:0] current_state, next_state;
-reg [10:0] selected_spin_speed;
+wire [10:0] selected_spin_speed; //changed from reg
 reg [13:0] selected_time;
 reg [2:0] program;
 
@@ -76,14 +78,14 @@ parameter [2:0] COLOURS = 3'b111;
 
 
 // temperatures for each mode
-parameter [6:0] temp_COTTON = temperature_40;
-parameter [6:0] temp_SYNTHETICS = temperature_40;
-parameter [6:0] temp_DRUM_CLEAN = temperature_60;
-parameter [6:0] temp_QUICK_WASH = temperature_10;
-parameter [6:0] temp_DAILY_WASH = temperature_40;
-parameter [6:0] temp_DELICATES = temperature_30;
-parameter [6:0] temp_WOOL = temperature_40;
-parameter [6:0] temp_COLOURS = temperature_40;
+parameter [5:0] temp_COTTON = temperature_40;
+parameter [5:0] temp_SYNTHETICS = temperature_40;
+parameter [5:0] temp_DRUM_CLEAN = temperature_60;
+parameter [5:0] temp_QUICK_WASH = temperature_10;
+parameter [5:0] temp_DAILY_WASH = temperature_40;
+parameter [5:0] temp_DELICATES = temperature_30;
+parameter [5:0] temp_WOOL = temperature_40;
+parameter [5:0] temp_COLOURS = temperature_40;
 
 // spin speeds for each mode
 parameter [10:0] spin_COTTON = spin_speed_1400;
@@ -125,7 +127,7 @@ reg water_flow_reset;
 wire water_flow_error;
 
 wire [9:0] water_level; 
-wire [6:0] selected_temperature;
+wire [5:0] selected_temperature;
 
 reg water_flow_error_flag;
 reg water_drainage_error_flag;
@@ -153,7 +155,7 @@ timer timermod (
 temperature_incrementor_lut temp_selector (
     .clk(clk),
     .reset(temp_reset),
-    .wash_mode(program),
+    .wash_mode(wash_mode),
     .increment(change_temperature),  // Use change_temperature signal as increment
     .selected_temperature(selected_temperature)
 );
@@ -161,7 +163,7 @@ temperature_incrementor_lut temp_selector (
 spin_speed_incrementor_lut speed_selector (
     .clk(clk),
     .reset(speed_reset),
-    .wash_mode(program),
+    .wash_mode(wash_mode),
     .increment(change_spin_speed),   // Use change_spin_speed signal as increment
     .selected_spin_speed(selected_spin_speed)
 );
@@ -182,7 +184,7 @@ always @(posedge clk or posedge reset) begin
         continue_pulse <= 0;
         pause_prev <= 0;
         continue_prev <= 0;
-        selected_spin_speed <= 11'd0;
+        //selected_spin_speed <= 11'd0;
         selected_time <= 14'd0;
         timer_enable <= 0;
         water_flow_error_flag <= 0;
@@ -224,15 +226,15 @@ always @(posedge clk or posedge reset) begin
         end
 
         // Update program and selected_time if transitioning to START state
-        if (current_state == IDLE && next_state == START) begin
-            program <= wash_mode;
-            case (wash_mode)
-                COTTON: selected_time <= time_COTTON;
-                SYNTHETICS: selected_time <= time_SYNTHETICS;
-                // Add other cases here
-                default: selected_time <= 0;
-            endcase
-        end
+        // if (current_state == IDLE && next_state == START) begin
+        //     program <= wash_mode;
+        //     case (wash_mode)
+        //         COTTON: selected_time <= time_COTTON;
+        //         SYNTHETICS: selected_time <= time_SYNTHETICS;
+        //         // Add other cases here
+        //         default: selected_time <= 0;
+        //     endcase
+        // end
 
         // Update other sequential variables as needed
     end
@@ -276,9 +278,10 @@ always @(*) begin
     end else begin
         case (current_state)
             IDLE: begin
-                program = wash_mode;
+                //program = wash_mode;
                 door_lock = 0;
-                if (start && door_locked ) begin
+                if (start && door_locked && clothes_loaded) begin
+                    door_lock = 1;
                     next_state = START;
                 end else begin
                     next_state = IDLE;
@@ -286,22 +289,49 @@ always @(*) begin
             end
             
             START: begin
+                if(confirm_wash_mode) begin
                 temp_reset = 1;
                 speed_reset = 1;
                 case (wash_mode)
-                    COTTON: selected_time = time_COTTON;
-                    SYNTHETICS: selected_time = time_SYNTHETICS;
-                    DRUM_CLEAN: selected_time = time_DRUM_CLEAN;
-                    QUICK_WASH: selected_time = time_QUICK_WASH;
-                    DAILY_WASH: selected_time = time_DAILY_WASH;
-                    DELICATES: selected_time = time_DELICATES;
-                    WOOL: selected_time = time_WOOL;
-                    COLOURS: selected_time = time_COLOURS;
-                    default: next_state = IDLE;
+                    COTTON: begin
+                        selected_time = time_COTTON;
+                        next_state = FILL_INITIAL;
+                    end
+                    SYNTHETICS: begin
+                        selected_time = time_SYNTHETICS;
+                        next_state = FILL_INITIAL;
+                    end
+                    DRUM_CLEAN: begin
+                        selected_time = time_DRUM_CLEAN;
+                        next_state = FILL_INITIAL;
+                    end
+                    QUICK_WASH: begin
+                        selected_time = time_QUICK_WASH;
+                        next_state = FILL_INITIAL;
+                    end
+                    DAILY_WASH: begin
+                        selected_time = time_DAILY_WASH;
+                        next_state = FILL_INITIAL;
+                    end
+                    DELICATES: begin
+                        selected_time = time_DELICATES;
+                        next_state = FILL_INITIAL;
+                    end
+                    WOOL: begin
+                        selected_time = time_WOOL;
+                        next_state = FILL_INITIAL;
+                    end
+                    COLOURS: begin
+                        selected_time = time_COLOURS;
+                        next_state = FILL_INITIAL;
+                    end
+                    default: next_state = START;
                 endcase
-                next_state = FILL_INITIAL;
+                //next_state = FILL_INITIAL;
             end
-
+            else next_state = START;
+            end
+            
             FILL_INITIAL: begin
                 water_valve=1;
                 water_flow_mode = 1;   // Filling mode
