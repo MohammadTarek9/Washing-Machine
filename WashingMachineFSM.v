@@ -74,7 +74,6 @@ parameter [3:0] time_COLOURS = 4'd9;
 parameter [6:0] GENERAL_WATER_LEVEL=7'd100;
 //missing signals
 reg [3:0] current_state, next_state, prev_state;
-reg pause_pulse, continue_pulse, pause_prev, continue_prev;
 reg [14:0] selected_time;
 reg water_flow_error_flag, water_drainage_error_flag, vibration_error_flag;
 
@@ -83,63 +82,40 @@ always @(posedge clk or posedge reset) begin
     if (reset) begin
         current_state <= IDLE;
         prev_state <= IDLE;
-        pause_pulse <= 0;
-        continue_pulse <= 0;
-        pause_prev <= 0;
-        continue_prev <= 0;
-        //selected_spin_speed <= 11'd0;
         selected_time <= 14'd0;
         timer_enable <= 0;
         water_flow_error_flag <= 0;
         water_drainage_error_flag <= 0;
         vibration_error_flag <= 0;
-        // Initialize other sequential variables here
     end else begin
         current_state <= next_state;
-
-        // Edge detection for pause and continue signals
-        pause_pulse <= (pause && !pause_prev);           
-        continue_pulse <= (continue_signal && !continue_prev);
-
-        // Update previous values
-        pause_prev <= pause;
-        continue_prev <= continue_signal;
-
         // Sequential logic for state-dependent variables
         if (vibration_sensor) begin
             vibration_error_flag <= 1;
             if (current_state != PAUSE) begin
                 prev_state <= current_state;
             end
-        end else if (water_flow_error) begin
-            if (water_flow_mode) begin
-                water_flow_error_flag <= 1;
-            end else begin
-                water_drainage_error_flag <= 1;
+        end
+        else if (water_flow_error) begin
+            if (current_state == PAUSE) begin
+                if (prev_state == FILL_BEFORE_RINSE || prev_state == HEAT_FILL || prev_state == FILL_INITIAL) begin
+                    water_flow_error_flag <= 1;
+                end 
+                else begin
+                    water_drainage_error_flag <= 1;
+                end
             end
-            if (current_state != PAUSE) begin
-                prev_state <= current_state;
-            end
-        end else if (pause_pulse && current_state != PAUSE) begin
+            else prev_state <= current_state;
+        end 
+        else if (pause && current_state != PAUSE) begin
             prev_state <= current_state;
-        end else if (continue_pulse) begin
+        end
+        else if (continue_signal) begin
             water_flow_error_flag <= 0;
             water_drainage_error_flag <= 0;
             vibration_error_flag <= 0;
+            next_state <= prev_state;
         end
-
-        // Update program and selected_time if transitioning to START state
-        // if (current_state == IDLE && next_state == START) begin
-        //     program <= wash_mode;
-        //     case (wash_mode)
-        //         COTTON: selected_time <= time_COTTON;
-        //         SYNTHETICS: selected_time <= time_SYNTHETICS;
-        //         // Add other cases here
-        //         default: selected_time <= 0;
-        //     endcase
-        // end
-
-        // Update other sequential variables as needed
     end
 end
 
@@ -156,27 +132,18 @@ always @(*) begin
     water_flow_reset = 1;
     water_flow_mode = 1'bx;
     door_lock = 1;
-    water_flow_error_led = 0;
-    drainage_error_led = 0;
-    vibration_error_led = 0;
+    water_flow_error_led = water_flow_error_flag;
+    drainage_error_led = water_drainage_error_flag;
+    vibration_error_led = vibration_error_flag;
     next_state = current_state; // Default to hold state
-
-    water_flow_error_flag = 0; //first edit
-    water_drainage_error_flag = 0; //first edit
-    vibration_error_flag = 0; //first edit
 
     if (stop) begin
         next_state = CANCEL_DRAIN;
-    end else if (vibration_error_flag) begin
-        vibration_error_led = 1;
+    end else if (vibration_error_flag || water_flow_error) begin
         next_state = PAUSE;
-    end else if (water_flow_error_flag || water_drainage_error_flag) begin
-        water_flow_error_led = water_flow_error_flag;
-        drainage_error_led = water_drainage_error_flag;
+    end else if (pause && current_state != PAUSE) begin
         next_state = PAUSE;
-    end else if (pause_pulse && current_state != PAUSE) begin
-        next_state = PAUSE;
-    end else if (current_state == PAUSE && continue_pulse) begin
+    end else if (current_state == PAUSE && continue_signal) begin
         next_state = prev_state;
     end else begin
         case (current_state)
@@ -354,30 +321,13 @@ always @(*) begin
 
             PAUSE: begin
                 timer_enable = 0;  // Disable the timer without resetting it
-                // Indicate errors via LEDs if error flags are set
-                if (water_flow_error_flag) begin
-                    water_flow_error_led = 1;
-                end else begin
-                    water_flow_error_led = 0;
+                if (continue_signal) begin
+                    water_flow_error_flag <= 0;
+                    water_drainage_error_flag <= 0;
+                    vibration_error_flag <= 0;
+                    next_state <= prev_state;
                 end
-                if (water_drainage_error_flag) begin
-                    drainage_error_led = 1;
-                end else begin
-                    drainage_error_led = 0;
-                end
-                if (vibration_error_flag) begin
-                    vibration_error_led = 1;
-                end else begin
-                    vibration_error_led = 0;
-                end
-                if (continue_pulse) begin
-                    water_flow_error_flag = 0;      // Reset error flags
-                    water_drainage_error_flag = 0;
-                    vibration_error_flag = 0;
-                    next_state = prev_state;        // Resume from the previous state
-                end else begin
-                    next_state = PAUSE;             // Stay in PAUSE state
-                end
+                else next_state = PAUSE;
             end
 
             CANCEL_DRAIN: begin
