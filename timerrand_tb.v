@@ -1,0 +1,46 @@
+`timescale 100ms/100ms
+module timerrand_tb();
+//Ports declaration
+reg clk, reset, enable;
+reg[15:0] clk_freq, timer_period;
+wire done;
+
+// Design instantiation
+timer dut(clk, reset, enable, clk_freq, timer_period, done);
+
+//Creating clock
+initial begin
+    clk = 0; //check this
+    forever begin
+        #1 clk = ~clk;
+    end
+end
+
+// driving dut inputs
+initial begin
+    enable = 0;
+    reset = 0;
+    clk_freq = 16'd5;
+    timer_period = 16'd1;
+    #2 enable = 1'b1;
+    #2 reset = 1'b1;
+    #2 reset=1'b0;
+    #25
+    #2 reset=1'b1;
+    #2
+    repeat(20) begin
+        #2
+        enable=1'b0;
+        reset=1'b0;
+        clk_freq = (($unsigned($random)) % 1000) + 1;
+        timer_period = (($unsigned($random)) % 1000) + 1;
+        #2 enable=1'b1;
+        #2 reset=1'b1;
+        #2 reset=1'b0;
+        #((clk_freq * timer_period*2)+5);
+        reset=1'b1;
+    end
+    #25 $stop;
+end
+
+endmodule
