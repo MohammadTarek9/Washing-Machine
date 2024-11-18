@@ -18,9 +18,10 @@ module MainController(
     output cycle_complete_led,    // LED indicator for cycle complete
     output door_lock,
     output water_valve,
+    output detergent_valve,
     output heater,
     output drain_pump,
-    output [3:0] drum_motor,  
+    output [10:0] drum_motor,  
     output water_flow_error_led,   // LED indicator for water flow error
     output drainage_error_led,     // LED indicator for drainage error
     output vibration_error_led   // LED indicator for vibration error
@@ -139,8 +140,6 @@ WashingMachineFSM fsm_inst (
     .temperature_adc_sensor(temperature_adc_sensor),
     .wash_mode(wash_mode),
     .confirm_wash_mode(confirm_wash_mode),
-    .change_temperature(change_temperature),
-    .change_spin_speed(change_spin_speed),
     .water_level_sensor(water_level_sensor),
     .timer_done(timer_done),
     .selected_temperature(selected_temperature),
@@ -157,6 +156,7 @@ WashingMachineFSM fsm_inst (
     .cycle_complete_led(cycle_complete_led),
     .door_lock(door_lock),
     .water_valve(water_valve),
+    .detergent_valve(detergent_valve),
     .heater(heater),
     .drain_pump(drain_pump),
     .drum_motor(drum_motor),
@@ -167,4 +167,3 @@ WashingMachineFSM fsm_inst (
 
 
 endmodule
-

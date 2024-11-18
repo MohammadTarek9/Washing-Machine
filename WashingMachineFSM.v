@@ -11,8 +11,6 @@ module WashingMachineFSM(
     input [6:0] temperature_adc_sensor,
     input [2:0] wash_mode,
     input confirm_wash_mode,
-    input change_temperature,
-    input change_spin_speed,
     input [9:0] water_level_sensor,
     input timer_done,
     input [5:0] selected_temperature,
@@ -29,6 +27,7 @@ module WashingMachineFSM(
     output reg cycle_complete_led,
     output reg door_lock,
     output reg water_valve,
+    output reg detergent_valve,
     output reg heater,
     output reg drain_pump,
     output reg [10:0] drum_motor, //changed
@@ -110,7 +109,7 @@ always @(posedge clk or posedge reset) begin
         else if (pause && current_state != PAUSE) begin
             prev_state <= current_state;
         end
-        else if (continue_signal) begin
+        else if (continue_signal) begin //////////////////////////
             water_flow_error_flag <= 0;
             water_drainage_error_flag <= 0;
             vibration_error_flag <= 0;
@@ -122,6 +121,7 @@ end
 always @(*) begin
     // Default assignments
     water_valve = 0;
+    detergent_valve = 0;
     heater = 0;
     drum_motor = 0;
     drain_pump = 0;
@@ -141,10 +141,13 @@ always @(*) begin
         next_state = CANCEL_DRAIN;
     end else if (vibration_error_flag || water_flow_error) begin
         next_state = PAUSE;
+        timer_enable = 0;  // Disable the timer without resetting it
     end else if (pause && current_state != PAUSE) begin
         next_state = PAUSE;
+        timer_enable = 0;  // Disable the timer without resetting it
     end else if (current_state == PAUSE && continue_signal) begin
         next_state = prev_state;
+        timer_enable = 1;  // Enable the timer to continue from where it was paused
     end else begin
         case (current_state)
             IDLE: begin
@@ -216,14 +219,18 @@ always @(*) begin
 
             HEAT_FILL: begin
                 heater=1;
+                water_valve=1;
+                detergent_valve=1;
                 water_flow_mode = 1;   // Filling mode
                 water_flow_reset = 0;
                 if(water_level_sensor>=water_level) begin
                     water_valve=0;
+                    detergent_valve=0;
                     water_flow_reset = 1;
                 end
                 else begin
                     water_valve=1;
+                    detergent_valve=1;
                 end
                 if(temperature_adc_sensor>=selected_temperature) begin
                     heater=0;
@@ -231,7 +238,7 @@ always @(*) begin
                 else begin 
                     heater=1;
                 end
-                if(heater==0 && water_valve==0) begin
+                if(heater==0 && water_valve==0 && detergent_valve==0) begin
                     next_state=WASH;
                 end
                 else next_state=HEAT_FILL;
@@ -320,18 +327,6 @@ always @(*) begin
                 timer_enable=0;
                 cycle_complete_led = 1;
                 next_state = IDLE;
-            end
-
-
-            PAUSE: begin
-                timer_enable = 0;  // Disable the timer without resetting it
-                if (continue_signal) begin
-                    water_flow_error_flag <= 0;
-                    water_drainage_error_flag <= 0;
-                    vibration_error_flag <= 0;
-                    next_state <= prev_state;
-                end
-                else next_state = PAUSE;
             end
 
             CANCEL_DRAIN: begin
