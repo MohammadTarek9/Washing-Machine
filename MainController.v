@@ -69,8 +69,8 @@ parameter [6:0] GENERAL_WATER_LEVEL=7'd100;
 wire timer_enable; //it is wire in the timer
 wire timer_reset;
 wire timer_done;
-reg [15:0] clk_freq = 16'd5;  //1Hz
-wire [15:0] timer_period; //changes with every state
+reg [2:0] clk_freq = 16'd5;  //1Hz
+wire [3:0] timer_period; //changes with every state
 
 wire temp_reset;
 wire speed_reset;

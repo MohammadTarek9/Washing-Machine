@@ -2,7 +2,7 @@
 module timerrand_tb();
 //Ports declaration
 reg clk, reset, enable;
-reg[15:0] clk_freq, timer_period;
+reg[3:0] clk_freq, timer_period;
 wire done;
 
 // Design instantiation
@@ -20,8 +20,8 @@ end
 initial begin
     enable = 0;
     reset = 0;
-    clk_freq = 16'd5;
-    timer_period = 16'd1;
+    clk_freq = 4'd5;
+    timer_period = 4'd1;
     #2 enable = 1'b1;
     #2 reset = 1'b1;
     #2 reset=1'b0;
@@ -32,8 +32,8 @@ initial begin
         #2
         enable=1'b0;
         reset=1'b0;
-        clk_freq = (($unsigned($random)) % 1000) + 1;
-        timer_period = (($unsigned($random)) % 1000) + 1;
+        clk_freq = (($unsigned($random)) % 15) + 1;
+        timer_period = (($unsigned($random)) % 15) + 1;
         #2 enable=1'b1;
         #2 reset=1'b1;
         #2 reset=1'b0;

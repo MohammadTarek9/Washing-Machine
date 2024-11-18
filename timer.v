@@ -1,12 +1,12 @@
 module timer (clk, reset, enable, clk_freq, timer_period, done);
     input clk, reset, enable;
-    input [15:0] clk_freq, timer_period;
+    input [3:0] clk_freq, timer_period;
     output reg done = 0;
     //Total number of ticks to reach
-    wire[31:0] count_max;
+    wire[6:0] count_max;
     assign count_max = clk_freq * timer_period;
     
-    reg [31:0] counter = 0;
+    reg [6:0] counter = 0;
     
     always @(posedge clk, posedge reset) begin
         if (enable) begin

@@ -98,6 +98,7 @@ module water_flow_tb;
         repeat(5) begin
             #2 water_level_sensor = water_level_sensor - 10'd20; // Derease water level
         end
+        reset = 1;
        #4 $stop;
     end
    initial begin

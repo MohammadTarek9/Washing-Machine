@@ -1,0 +1,16 @@
+Coverage Report Summary Data by DU
+
+=================================================================================
+=== Design Unit: work.WashingMachineFSM
+=================================================================================
+    Enabled Coverage              Bins      Hits    Misses  Coverage
+    ----------------              ----      ----    ------  --------
+    Branches                        66        64         2    96.96%
+    Conditions                      26        19         7    73.07%
+    Statements                     145       143         2    98.62%
+    Toggles                        238       182        56    76.47%
+
+
+Total Coverage By Design Unit (filtered view): 86.28%
+
+

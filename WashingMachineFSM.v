@@ -19,7 +19,7 @@ module WashingMachineFSM(
     input water_flow_error,
     output reg timer_enable,
     output reg timer_reset,
-    output reg [15:0] timer_period,
+    output reg [3:0] timer_period,
     output reg temp_reset,
     output reg speed_reset,
     output reg water_flow_mode,

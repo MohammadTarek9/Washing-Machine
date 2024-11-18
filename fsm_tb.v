@@ -20,7 +20,7 @@ module fsm_tb();
     reg water_flow_error;
     wire timer_enable;
     wire timer_reset;
-    wire [15:0] timer_period;
+    wire [3:0] timer_period;
     wire temp_reset;
     wire speed_reset;
     wire water_flow_mode;
