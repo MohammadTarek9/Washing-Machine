@@ -17,39 +17,41 @@ module WaterFlowMonitor (
     // Process block
     always @(posedge clk or posedge reset) begin
         if (reset) begin
+            // $display("Reset!");
             // Reset all registers and flag
             previous_level <= water_level_sensor;
             counter <= 0;
             error_flag <= 0;
         end else begin
-            if (mode) begin
-                // Filling mode: Expect an increase in water level
-                if (water_level_sensor > previous_level + THRESHOLD) begin
-                    // Water level increased by the required threshold
-                    previous_level <= water_level_sensor;
-                    counter <= 0;         // Reset counter on valid increase
-                    error_flag <= 0;      // Clear error flag
-                end else begin
-                    if (counter >= TIME_LIMIT) begin
-                        // If counter exceeds time limit and no valid increase
-                        error_flag <= 1;  // Set error flag
+            if (!error_flag) begin
+                if (mode) begin
+                    // Filling mode: Expect an increase in water level
+                    if (water_level_sensor > previous_level + THRESHOLD) begin
+                        // Water level increased by the required threshold
+                        previous_level <= water_level_sensor;
+                        counter <= 0;         // Reset counter on valid increase
                     end else begin
-                        counter <= counter + 1; // Increment counter
+                        if (counter >= TIME_LIMIT) begin
+                            // $display("Exceeded!");
+                            // If counter exceeds time limit and no valid increase
+                            error_flag <= 1;  // Set error flag
+                        end else begin
+                            counter <= counter + 1; // Increment counter
+                        end
                     end
-                end
-            end else begin
-                // Draining mode: Expect a decrease in water level
-                if (water_level_sensor < previous_level - THRESHOLD) begin
-                    // Water level decreased by the required threshold
-                    previous_level <= water_level_sensor;
-                    counter <= 0;         // Reset counter on valid decrease
-                    error_flag <= 0;      // Clear error flag
                 end else begin
-                    if (counter >= TIME_LIMIT) begin
-                        // If counter exceeds time limit and no valid decrease
-                        error_flag <= 1;  // Set error flag
+                    // Draining mode: Expect a decrease in water level
+                    if (water_level_sensor < previous_level - THRESHOLD) begin
+                        // Water level decreased by the required threshold
+                        previous_level <= water_level_sensor;
+                        counter <= 0;         // Reset counter on valid decrease
                     end else begin
-                        counter <= counter + 1; // Increment counter
+                        if (counter >= TIME_LIMIT) begin
+                            // If counter exceeds time limit and no valid decrease
+                            error_flag <= 1;  // Set error flag
+                        end else begin
+                            counter <= counter + 1; // Increment counter
+                        end
                     end
                 end
             end

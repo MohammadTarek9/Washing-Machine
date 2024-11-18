@@ -129,7 +129,7 @@ always @(*) begin
     timer_reset = 1;
     temp_reset = 0;
     speed_reset = 0;
-    water_flow_reset = 1;
+    // water_flow_reset = 1;
     water_flow_mode = 1'bx;
     door_lock = 1;
     water_flow_error_led = water_flow_error_flag;
@@ -162,6 +162,7 @@ always @(*) begin
                 if(confirm_wash_mode) begin
                 temp_reset = 1;
                 speed_reset = 1;
+                water_flow_reset = 1;
                 case (wash_mode)
                     COTTON: begin
                         selected_time = time_COTTON;
@@ -219,6 +220,7 @@ always @(*) begin
                 water_flow_reset = 0;
                 if(water_level_sensor>=water_level) begin
                     water_valve=0;
+                    water_flow_reset = 1;
                 end
                 else begin
                     water_valve=1;
@@ -274,6 +276,7 @@ always @(*) begin
             end
 
             RINSE: begin
+                water_flow_reset = 1;
                 timer_period=selected_time/5;
                 timer_enable=1;
                 timer_reset=0;
@@ -287,6 +290,7 @@ always @(*) begin
             end
 
             DRAIN_AFTER_RINSE: begin
+                drum_motor = 0;
                 drain_pump=1;
                 timer_reset=1;
                 water_flow_mode = 0;   // Draining mode
@@ -303,7 +307,7 @@ always @(*) begin
                 timer_period=selected_time/5;
                 timer_enable=1;
                 timer_reset=0;
-                //drum_motor = 8;
+                drum_motor = selected_spin_speed;
                 if(timer_done==1) begin
                     next_state=COMPLETE;
                 end

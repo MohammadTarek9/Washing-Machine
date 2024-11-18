@@ -15,7 +15,6 @@ module MainController(
     input change_temperature,
     input change_spin_speed,
     input [9:0] water_level_sensor, //sensor for water level
-    input [9:0] motor_speed_sensor, //NOT HANDLED IN CODE
     output cycle_complete_led,    // LED indicator for cycle complete
     output door_lock,
     output water_valve,
@@ -66,7 +65,7 @@ parameter [10:0] spin_COLOURS = spin_speed_1400;
 parameter [6:0] GENERAL_WATER_LEVEL=7'd100;
   
 
-wire timer_enable=0; //it is wire in the timer
+wire timer_enable; //it is wire in the timer
 wire timer_reset;
 wire timer_done;
 reg [15:0] clk_freq = 16'd5;  //1Hz
@@ -75,22 +74,16 @@ wire [15:0] timer_period; //changes with every state
 wire temp_reset;
 wire speed_reset;
 
-// reg pause_prev, continue_prev; 
-// reg pause_pulse;          // Register to detect pause pulse
-// reg continue_pulse;       // Register to detect continue pulse
-// reg [3:0] prev_state;     // Store previous state when paused
-
 // Declare signals for WaterFlowMonitor integration
+wire water_flow_error;
 wire water_flow_mode;
 wire water_flow_reset;
-wire water_flow_error;
+
 
 wire [9:0] water_level; 
 wire [5:0] selected_temperature;
+wire [10:0] selected_spin_speed;
 
-// reg water_flow_error_flag;
-// reg water_drainage_error_flag;
-// reg vibration_error_flag;
 
 // Instantiate WaterFlowMonitor
 WaterFlowMonitor water_flow_monitor_inst (
