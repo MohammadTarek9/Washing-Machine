@@ -109,7 +109,7 @@ always @(posedge clk or posedge reset) begin
         else if (pause && current_state != PAUSE) begin
             prev_state <= current_state;
         end
-        else if (continue_signal) begin //////////////////////////
+        else if (continue_signal) begin
             water_flow_error_flag <= 0;
             water_drainage_error_flag <= 0;
             vibration_error_flag <= 0;
@@ -120,13 +120,14 @@ end
 
 always @(*) begin
     // Default assignments
+    timer_enable = 0;
     water_valve = 0;
     detergent_valve = 0;
     heater = 0;
     drum_motor = 0;
     drain_pump = 0;
     cycle_complete_led = 0;
-    timer_reset = 1;
+    timer_reset = 0;
     temp_reset = 0;
     speed_reset = 0;
     // water_flow_reset = 1;
@@ -139,20 +140,18 @@ always @(*) begin
 
     if (stop) begin
         next_state = CANCEL_DRAIN;
-    end else if (vibration_error_flag || water_flow_error) begin
+    end else if ( current_state != PAUSE && (vibration_error_flag || water_flow_error)) begin
         next_state = PAUSE;
-        timer_enable = 0;  // Disable the timer without resetting it
     end else if (pause && current_state != PAUSE) begin
         next_state = PAUSE;
-        timer_enable = 0;  // Disable the timer without resetting it
     end else if (current_state == PAUSE && continue_signal) begin
         next_state = prev_state;
-        timer_enable = 1;  // Enable the timer to continue from where it was paused
     end else begin
         case (current_state)
             IDLE: begin
                 //program = wash_mode;
                 door_lock = 0;
+                timer_reset = 1;
                 if (start && door_locked && clothes_loaded) begin
                     door_lock = 1;
                     next_state = START;
@@ -248,7 +247,6 @@ always @(*) begin
                 water_flow_reset=1;
                 timer_period=selected_time/2;
                 timer_enable=1;
-                timer_reset=0;
                 drum_motor = selected_spin_speed;
                 if(timer_done==1) begin
                     next_state=DRAIN_AFTER_WASH;
@@ -259,6 +257,7 @@ always @(*) begin
             end
 
             DRAIN_AFTER_WASH: begin
+                timer_reset = 1;
                 heater=0;
                 drain_pump=1;
                 drum_motor = 0;
@@ -286,7 +285,6 @@ always @(*) begin
                 water_flow_reset = 1;
                 timer_period=selected_time/5;
                 timer_enable=1;
-                timer_reset=0;
                 drum_motor = selected_spin_speed;
                 if(timer_done==1) begin
                     next_state=DRAIN_AFTER_RINSE;
@@ -313,7 +311,6 @@ always @(*) begin
             DRY_SPIN: begin
                 timer_period=selected_time/5;
                 timer_enable=1;
-                timer_reset=0;
                 drum_motor = selected_spin_speed;
                 if(timer_done==1) begin
                     next_state=COMPLETE;
@@ -324,9 +321,18 @@ always @(*) begin
             end
 
             COMPLETE: begin
-                timer_enable=0;
                 cycle_complete_led = 1;
                 next_state = IDLE;
+            end
+
+            PAUSE: begin
+                if (continue_signal) begin
+                    water_flow_error_flag <= 0;
+                    water_drainage_error_flag <= 0;
+                    vibration_error_flag <= 0;
+                    next_state <= prev_state;
+                end
+                else next_state = PAUSE;
             end
 
             CANCEL_DRAIN: begin
@@ -337,7 +343,6 @@ always @(*) begin
                 drain_pump = 1;   // Activate drain pump to drain water
                 water_flow_mode = 0;   // Set mode to draining
                 water_flow_reset = 0;  // Enable WaterFlowMonitor for draining
-                timer_enable = 0;      // Disable timer
                 door_lock = 1;         // Keep door locked during draining
 
                 // Check if water has been drained
