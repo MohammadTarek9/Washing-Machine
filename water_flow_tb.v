@@ -49,8 +49,10 @@ module water_flow_tb;
         reset = 1;
         #2 reset = 0;
         mode = 0;               // Set mode to draining
-        #2 water_level_sensor = 10'd200; // New starting water level
-
+        #2 reset = 1;
+        water_level_sensor = 10'd200; // New starting water level
+        #2 reset = 0;
+        
         // 4. Test normal operation in draining mode
 
         repeat(5) begin
@@ -74,9 +76,9 @@ module water_flow_tb;
         //#20; // Wait for TIME_LIMIT cycles
         //$display("Error Flag (Filling mode, insufficient increment): %d", error_flag);
         #2 reset=1;
-        #2 reset=0;
         mode=0;
         water_level_sensor=10'd200;
+        #2 reset=0;
         repeat(10) begin
             #2 water_level_sensor = water_level_sensor - 10'd5; // Decrease water level by less than THRESHOLD
         end
@@ -102,7 +104,7 @@ module water_flow_tb;
        #4 $stop;
     end
    initial begin
-        $monitor("Time=%t, reset=%b, mode=%b, water_level_sensor=%d, error_flag=%b", 
-                 $time, reset, mode, water_level_sensor, error_flag);
+        $monitor("reset=%b, previous=%d, water_level_sensor=%d, error_flag=%b, counter=%d", 
+                 reset, uut.previous_level, water_level_sensor, error_flag, uut.counter);
     end
 endmodule

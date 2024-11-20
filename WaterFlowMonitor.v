@@ -12,13 +12,9 @@ module WaterFlowMonitor (
 
     // Internal registers
     reg [9:0] previous_level;             // Stores previous water level
-    reg [2:0] counter;       //changed            // Counter for time limit
-
-    // Process block
+    reg [2:0] counter;                   // Counter for time limit
     always @(posedge clk or posedge reset) begin
         if (reset) begin
-            // $display("Reset!");
-            // Reset all registers and flag
             previous_level <= water_level_sensor;
             counter <= 0;
             error_flag <= 0;
@@ -57,4 +53,5 @@ module WaterFlowMonitor (
             end
         end
     end
+
 endmodule

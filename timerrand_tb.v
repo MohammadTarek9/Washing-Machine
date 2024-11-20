@@ -23,22 +23,27 @@ initial begin
     clk_freq = 4'd5;
     timer_period = 4'd1;
     #2 enable = 1'b1;
+    #2 enable = 0;
     #2 reset = 1'b1;
+    #2 enable = 1;
     #2 reset=1'b0;
     #25
+    #2 enable = 0;
     #2 reset=1'b1;
     #2
     repeat(20) begin
-        #2
-        enable=1'b0;
-        reset=1'b0;
+        #2 enable=1'b0;
+        #2 reset=1'b0;
         clk_freq = (($unsigned($random)) % 15) + 1;
         timer_period = (($unsigned($random)) % 15) + 1;
         #2 enable=1'b1;
+        #2 enable = 0;
         #2 reset=1'b1;
+        #2 enable = 1;
         #2 reset=1'b0;
         #((clk_freq * timer_period*2)+5);
-        reset=1'b1;
+        enable = 0;
+        #2 reset=1'b1;
     end
     #25 $stop;
 end

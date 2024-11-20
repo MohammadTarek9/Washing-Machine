@@ -152,6 +152,8 @@ always @(*) begin
                 //program = wash_mode;
                 door_lock = 0;
                 timer_reset = 1;
+                temp_reset = 1;
+                speed_reset = 1;
                 if (start && door_locked && clothes_loaded) begin
                     door_lock = 1;
                     next_state = START;
@@ -162,8 +164,6 @@ always @(*) begin
             
             START: begin
                 if(confirm_wash_mode) begin
-                temp_reset = 1;
-                speed_reset = 1;
                 water_flow_reset = 1;
                 case (wash_mode)
                     COTTON: begin
@@ -200,7 +200,6 @@ always @(*) begin
                     end
                     default: next_state = START;
                 endcase
-                //next_state = FILL_INITIAL;
             end
             else next_state = START;
             end
@@ -327,10 +326,10 @@ always @(*) begin
 
             PAUSE: begin
                 if (continue_signal) begin
-                    water_flow_error_flag <= 0;
-                    water_drainage_error_flag <= 0;
-                    vibration_error_flag <= 0;
-                    next_state <= prev_state;
+                    water_flow_error_flag = 0;
+                    water_drainage_error_flag = 0;
+                    vibration_error_flag = 0;
+                    next_state = prev_state;
                 end
                 else next_state = PAUSE;
             end
@@ -363,4 +362,5 @@ always @(*) begin
 
     end
 end
+
 endmodule

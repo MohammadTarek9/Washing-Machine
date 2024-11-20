@@ -28,8 +28,7 @@ module spin_speed_incrementor_lut(
                 3'd4: index <= 2'd3; // DAILY_WASH -> 1400
                 3'd5: index <= 2'd0; // DELICATES -> 400
                 3'd6: index <= 2'd1; // WOOL -> 800
-                3'd7: index <= 2'd3; // COLOURS -> 1400
-                default: index <= 2'd0;
+                default: index <= 2'd3; // COLOURS -> 1400
             endcase
             increment_prev <= 0; // Initialize the previous increment signal for edge detection
         end else begin

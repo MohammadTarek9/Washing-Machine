@@ -68,8 +68,6 @@ initial begin
     // Additional Test Case 10: Toggle all bits back to 0
     #2 load_weight = 8'd0; // 00000000
     #2; // Wait and check water_level output
-    #2 reset=1;
-    #2 reset=0;
 
      #4 $stop;      
      end

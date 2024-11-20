@@ -164,6 +164,65 @@ WashingMachineFSM fsm_inst (
     .drainage_error_led(drainage_error_led),
     .vibration_error_led(vibration_error_led)
 );
-
-
+//ensure that pause works correctly with timer
+/*
+    psl default clock=rose(clk);
+    psl property MAINPAUSE = always (pause -> next(timermod.counter==prev(timermod.counter)));
+    psl assert MAINPAUSE;
+*/
+//ensure that door is locked when start
+/*
+    psl property DOOR_LOCK = always ((fsm_inst.current_state==fsm_inst.START && fsm_inst.start==1 && fsm_inst.door_locked==1 && fsm_inst.clothes_loaded==1) -> door_lock==1);
+    psl assert DOOR_LOCK;
+*/
+//ensure that heater is turned on when heat fill
+/*
+    psl property HEATER_ON = always ((fsm_inst.current_state==fsm_inst.HEAT_FILL && fsm_inst.temperature_adc_sensor<fsm_inst.selected_temperature) -> heater==1);
+    psl assert HEATER_ON;
+*/
+//ensure that water valve is turned on when fill initial or fill before rinse
+/*
+    psl property WATER_VALVE_ON = always ((fsm_inst.current_state==fsm_inst.FILL_INITIAL || fsm_inst.current_state==fsm_inst.FILL_BEFORE_RINSE) -> water_valve==1);
+    psl assert WATER_VALVE_ON;
+*/
+//ensure that water valve turned on in heat fill
+/*
+    psl property WATER_VALVE_ON2 = always ((fsm_inst.current_state==fsm_inst.HEAT_FILL && fsm_inst.water_level_sensor<fsm_inst.water_level) -> water_valve==1);
+    psl assert WATER_VALVE_ON2;
+*/
+//ensure that detergent valve turned on in heat fill
+/*
+    psl property DETERGENT_VALVE_ON = always ((fsm_inst.current_state==fsm_inst.HEAT_FILL && fsm_inst.water_level_sensor<fsm_inst.water_level) -> detergent_valve==1);
+    psl assert DETERGENT_VALVE_ON;
+*/
+//ensure that water flow mode is filling in all filling states
+/*
+    psl property FILLING_MODE = always ((fsm_inst.current_state==fsm_inst.FILL_INITIAL || fsm_inst.current_state==fsm_inst.HEAT_FILL || fsm_inst.current_state==fsm_inst.FILL_BEFORE_RINSE) -> water_flow_mode==1);
+    psl assert FILLING_MODE;
+*/
+//ensure that water flow mode is draining in all draining states
+/*
+    psl property DRAINING_MODE = always ((fsm_inst.current_state==fsm_inst.DRAIN_AFTER_WASH || fsm_inst.current_state==fsm_inst.DRAIN_AFTER_RINSE) -> water_flow_mode==0);
+    psl assert DRAINING_MODE;
+*/
+//ensure that drain pump is on in all draining states
+/*
+    psl property DRAIN_PUMP_ON = always (((fsm_inst.current_state==fsm_inst.DRAIN_AFTER_WASH || fsm_inst.current_state==fsm_inst.DRAIN_AFTER_RINSE) && fsm_inst.water_level_sensor!=0) -> drain_pump==1);
+    psl assert DRAIN_PUMP_ON;
+*/
+//ensure that drum motor is assigned to the selected spin speed in wash, rinse, and dry spin
+/*
+    psl property DRUM_MOTOR_ON = always ((fsm_inst.current_state==fsm_inst.WASH || fsm_inst.current_state==fsm_inst.RINSE || fsm_inst.current_state==fsm_inst.DRY_SPIN) -> drum_motor==fsm_inst.selected_spin_speed);
+    psl assert DRAIN_PUMP_ON;
+*/
+//ensure that cycle complete led is on when cycle is complete
+/*
+    psl property CYCLE_COMPLETE = always ((fsm_inst.current_state==fsm_inst.COMPLETE) -> cycle_complete_led==1);
+    psl assert CYCLE_COMPLETE;
+*/
+//ensure that vibration error led is on when vibration sensor is on
+/*
+    psl property VIBRATION_ERROR = always ((fsm_inst.vibration_sensor==1) -> next(vibration_error_led==1));
+    psl assert VIBRATION_ERROR;
+*/
 endmodule

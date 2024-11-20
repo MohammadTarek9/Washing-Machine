@@ -28,8 +28,7 @@ module temperature_incrementor_lut(
                 3'd4: index <= 2'd2; // DAILY_WASH -> 40
                 3'd5: index <= 2'd1; // DELICATES -> 30
                 3'd6: index <= 2'd2; // WOOL -> 40
-                3'd7: index <= 2'd2; // COLOURS -> 40
-                default: index <= 2'd0;
+                default: index <= 2'd2; // COLOURS -> 40
             endcase
             increment_prev <= 0; // Initialize the previous increment signal for edge detection
         end else begin
@@ -51,6 +50,6 @@ module temperature_incrementor_lut(
             default: selected_temperature = TEMP_60;
         endcase
     end
-    
+
 endmodule
 
