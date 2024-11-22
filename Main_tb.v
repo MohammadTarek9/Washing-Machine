@@ -84,12 +84,13 @@ module Main_tb();
         load_weight = 8'd50;
         wash_mode = 3'd0;
         #4;
-        // if (dut.fsm_inst.current_state != dut.fsm_inst.START) $display("Failed IDLE -> START!");
-        // else $display("Passed IDLE -> START!");
+        start = 0;
+        if (dut.fsm_inst.current_state != dut.fsm_inst.START) $display("Failed IDLE -> START!");
+        else $display("Passed IDLE -> START!");
         confirm_wash_mode = 1;
         #4
-        // if (dut.fsm_inst.current_state != dut.fsm_inst.FILL_INITIAL) $display("Failed START -> FILL_INITIAL!");
-        // else $display("Passed START -> FILL_INITIAL!");
+        if (dut.fsm_inst.current_state != dut.fsm_inst.FILL_INITIAL) $display("Failed START -> FILL_INITIAL!");
+        else $display("Passed START -> FILL_INITIAL!");
         #2 water_level_sensor = 10'd200;
         #6 water_level_sensor = 10'd300;
         #6 temperature_adc_sensor = 'd40;
@@ -113,18 +114,16 @@ module Main_tb();
         change_spin_speed = 0;
         water_level_sensor = 10'd0;
 
-        #4
-        reset = 0;
-        #4
-        start = 1;
+        #4 reset = 0;
+        #4 start = 1;
         wash_mode = 3'd3;
         clothes_loaded=1;
         door_locked=1;
         load_weight = 8'd100;
         #4;
         #2 start = 0;
-        // if (dut.fsm_inst.current_state != dut.fsm_inst.START) $display("Failed IDLE -> START!");
-        // else $display("Passed IDLE -> START!");
+        if (dut.fsm_inst.current_state != dut.fsm_inst.START) $display("Failed IDLE -> START!");
+        else $display("Passed IDLE -> START!");
         $display("Speed= ", dut.speed_selector.selected_spin_speed);
         $display("Temp= ", dut.temp_selector.selected_temperature);
         #2 change_spin_speed = 1;
@@ -135,8 +134,8 @@ module Main_tb();
         change_temperature = 0;
         confirm_wash_mode = 1;
         #4
-        // if (dut.fsm_inst.current_state != dut.fsm_inst.FILL_INITIAL) $display("Failed START -> FILL_INITIAL!");
-        // else $display("Passed START -> FILL_INITIAL!");
+        if (dut.fsm_inst.current_state != dut.fsm_inst.FILL_INITIAL) $display("Failed START -> FILL_INITIAL!");
+        else $display("Passed START -> FILL_INITIAL!");
         #2 water_level_sensor = 10'd200;
         $display("Speed After= ", dut.speed_selector.selected_spin_speed);
         $display("Temp After= ", dut.temp_selector.selected_temperature);
@@ -201,7 +200,7 @@ module Main_tb();
     end
 
     initial begin
-        $monitor("Time=%d, Current=%d,  Counter=%d", $time, dut.fsm_inst.current_state,  dut.water_flow_monitor_inst.counter);
+        $monitor("Time=%d, Current=%d,  Counter=%d", $time, dut.fsm_inst.current_state,  dut.timermod.counter);
     end
 
 endmodule

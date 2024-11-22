@@ -50,6 +50,31 @@ module temperature_incrementor_lut(
             default: selected_temperature = TEMP_60;
         endcase
     end
+//ensure that the selected temperature is correct for each wash mode when temp_reset is high
+/*
+psl default clock=rose(clk);
+psl property TEMP_RESET_INDEX=always (reset==1 -> next((wash_mode == 3'd0 && index == 2'd2) ||
+    (wash_mode == 3'd1 && index == 2'd2) ||
+    (wash_mode == 3'd2 && index == 2'd3) ||
+    (wash_mode == 3'd3 && index == 2'd0) ||
+    (wash_mode == 3'd4 && index == 2'd2) ||
+    (wash_mode == 3'd5 && index == 2'd1) ||
+    (wash_mode == 3'd6 && index == 2'd2) ||
+    (wash_mode == 3'd7 && index == 2'd2) || (wash_mode === 3'bx && index == 2'd0)));
+    psl assert TEMP_RESET_INDEX;
+*/
+// ensure index wraps around correctly
+/*
+psl property INDEX_WRAP = always ((increment && !increment_prev && !reset && index == 2'd3) ->
+    next(index == 2'd0));
+psl assert INDEX_WRAP;
+*/
+// ensure index is incremented correctly
+/*
+psl property INDEX_INCREMENT = always ((increment && !increment_prev && !reset && index != 2'd3) ->
+    next(index == prev(index) + 1'b1));
+psl assert INDEX_INCREMENT;
+*/
 
 endmodule
 

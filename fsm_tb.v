@@ -35,6 +35,29 @@ module fsm_tb();
     wire water_flow_error_led;
     wire drainage_error_led;
     wire vibration_error_led;
+
+    task initialize_signals;
+    begin
+        reset = 1;
+        start = 0;
+        stop = 0;
+        pause = 0;
+        continue_signal = 0;
+        door_locked = 0;
+        clothes_loaded = 0;
+        vibration_sensor = 0;
+        temperature_adc_sensor = 7'd0;
+        wash_mode = 3'b0;
+        confirm_wash_mode = 0;
+        water_level_sensor = 10'd0;
+        timer_done=0;
+        selected_temperature = 6'd0;
+        selected_spin_speed = 11'd0;
+        water_level = 10'd0;
+        water_flow_error = 0;
+    end
+    endtask
+
     WashingMachineFSM dut(
         .clk(clk),
         .reset(reset),
@@ -218,14 +241,6 @@ module fsm_tb();
         continue_signal = 0;
         $display("Current State: ", dut.current_state);
         #4
-        ////////////////////////////////////////////////////////
-        $display("Stopping!!!");
-        stop = 1;
-        #4 $display("Current State: ", dut.current_state);
-        water_level_sensor = 0;
-        stop = 0;
-        #8 $display("Current State: ", dut.current_state);
-        ///////////////////////////////////////////////////////////
         timer_done=1;
         #8
         timer_done=0;
@@ -276,10 +291,8 @@ module fsm_tb();
         start=0;
         clothes_loaded=0;
         door_locked=0;
-        // // COMPLETE -> IDLE
-        // $display("Testing COMPLETE -> IDLE");
-        // if (dut.current_state != dut.IDLE) $display("Failed COMPLETE -> IDLE!");
-        // else $display("Passed COMPLETE -> IDLE!");
+        // COMPLETE -> IDLE
+        $display("Testing COMPLETE -> IDLE");
         #6 
         //////////////////////////////////////////////////////////////////////
         for(wmindex=0; wmindex<8; wmindex=wmindex+1) begin
@@ -415,6 +428,7 @@ module fsm_tb();
         else $display("Passed COMPLETE -> IDLE!");
         #6;
     end
+    //////////////////////////////////////////////////////////////
         reset = 1;
         start = 0;
         stop = 0;
@@ -505,7 +519,232 @@ module fsm_tb();
         clothes_loaded=0;
         door_locked=0;
         #2;
+        ///////////////////////////////////Stopping at different states//////////////////////////////
+        initialize_signals;
+        #8
+        reset = 0;
+        #8
+        // Test FSM transitions
+        // IDLE -> START
+        $display("Testing IDLE -> START");
+        stop = 1;
+        #8;
+        stop = 0;
+        #8
+        ///////////////////////////////////////////////////
+        initialize_signals;
+        #8
+        reset = 0;
+        #8
+        // Test FSM transitions
+        // IDLE -> START
+        $display("Testing IDLE -> START");
+        reset=0;
+        start=1;
+        clothes_loaded=1;
+        door_locked=1;
+        #8;
+        if (dut.current_state != dut.START) $display("Failed IDLE -> START!");
+        else $display("Passed IDLE -> START!");
+        #8
+        // START -> FILL_INITIAL
+        $display("Testing START -> FILL_INITIAL");
+        stop = 1;
+        #8 stop = 0;
+        #8
+        /////////////////////////////////////////////////////////////////////////
+        initialize_signals;
+        #8
+        reset = 0;
+        #8
+        // Test FSM transitions
+        // IDLE -> START
+        $display("Testing IDLE -> START");
+        reset=0;
+        start=1;
+        clothes_loaded=1;
+        door_locked=1;
+        #8;
+        if (dut.current_state != dut.START) $display("Failed IDLE -> START!");
+        else $display("Passed IDLE -> START!");
+        #8
+        // START -> FILL_INITIAL
+        $display("Testing START -> FILL_INITIAL");
+        wash_mode = wmindex;
+        confirm_wash_mode = 1;
+        temp_index = $unsigned($random) % 4; // Random index between 0 and 3
+        speed_index = $unsigned($random) % 4; // Random index between 0 and 3
+        selected_temperature = temp_values[temp_index];
+        selected_spin_speed = speed_values[speed_index];
+        #8
+        if (dut.current_state != dut.FILL_INITIAL) $display("Failed START -> FILL_INITIAL!");
+        else $display("Passed START -> FILL_INITIAL!");
+        #8
+        // FILL_INITIAL -> HEAT_FILL
+        $display("Testing FILL_INITIAL -> HEAT_FILL");
+        stop = 1;
+        #8
+        stop = 0;
+        #8
+        /////////////////////////////////////////////////////////////////////////////////////////////////
+        initialize_signals;
+        #8
+        reset = 0;
+        #8
+        // Test FSM transitions
+        // IDLE -> START
+        $display("Testing IDLE -> START");
+        reset=0;
+        start=1;
+        clothes_loaded=1;
+        door_locked=1;
+        #8;
+        if (dut.current_state != dut.START) $display("Failed IDLE -> START!");
+        else $display("Passed IDLE -> START!");
+        #8
+        // START -> FILL_INITIAL
+        $display("Testing START -> FILL_INITIAL");
+        wash_mode = wmindex;
+        confirm_wash_mode = 1;
+        temp_index = $unsigned($random) % 4; // Random index between 0 and 3
+        speed_index = $unsigned($random) % 4; // Random index between 0 and 3
+        selected_temperature = temp_values[temp_index];
+        selected_spin_speed = speed_values[speed_index];
+        #8
+        if (dut.current_state != dut.FILL_INITIAL) $display("Failed START -> FILL_INITIAL!");
+        else $display("Passed START -> FILL_INITIAL!");
+        #8
+        // FILL_INITIAL -> HEAT_FILL
+        $display("Testing FILL_INITIAL -> HEAT_FILL");
+        water_level_sensor = 10'd110;
+        water_level=10'd300;
+        #8
+        if (dut.current_state != dut.HEAT_FILL) $display("Failed FILL_INITIAL -> HEAT_FILL!");
+        else $display("Passed FILL_INITIAL -> HEAT_FILL!");
+        #8
+        // HEAT_FILL -> WASH
+        $display("Testing HEAT_FILL -> WASH");
+        stop = 1;
+        #8
+        stop = 0;
+        #8
+        /////////////////////////////////////////////////////////////////////
+        initialize_signals;
+
+        #8
+        reset = 0;
+        #8
+        // Test FSM transitions
+        // IDLE -> START
+        $display("Testing IDLE -> START");
+        reset=0;
+        start=1;
+        clothes_loaded=1;
+        door_locked=1;
+        #8;
+        if (dut.current_state != dut.START) $display("Failed IDLE -> START!");
+        else $display("Passed IDLE -> START!");
+        #8
+        // START -> FILL_INITIAL
+        $display("Testing START -> FILL_INITIAL");
+        wash_mode = wmindex;
+        confirm_wash_mode = 1;
+        temp_index = $unsigned($random) % 4; // Random index between 0 and 3
+        speed_index = $unsigned($random) % 4; // Random index between 0 and 3
+        selected_temperature = temp_values[temp_index];
+        selected_spin_speed = speed_values[speed_index];
+        #8
+        if (dut.current_state != dut.FILL_INITIAL) $display("Failed START -> FILL_INITIAL!");
+        else $display("Passed START -> FILL_INITIAL!");
+        #8
+        // FILL_INITIAL -> HEAT_FILL
+        $display("Testing FILL_INITIAL -> HEAT_FILL");
+        water_level_sensor = 10'd110;
+        water_level=10'd300;
+        #8
+        if (dut.current_state != dut.HEAT_FILL) $display("Failed FILL_INITIAL -> HEAT_FILL!");
+        else $display("Passed FILL_INITIAL -> HEAT_FILL!");
+        #8
+        // HEAT_FILL -> WASH
+        $display("Testing HEAT_FILL -> WASH");
+        water_level_sensor=$unsigned($random) % 200;
+        temperature_adc_sensor=$unsigned($random) % 5;
+        #2
+        water_level_sensor=10'd300;
+        temperature_adc_sensor=7'd60;
+        #8
+        if (dut.current_state != dut.WASH) $display("Failed HEAT_FILL -> WASH!");
+        else $display("Passed HEAT_FILL -> WASH!");
+        #8
+        // WASH -> DRAIN_AFTER_WASH
+        $display("Testing WASH -> DRAIN_AFTER_WASH");
+        stop = 1;
+        #8
+        stop = 0;
+        #8
+        ////////////////////////////////////////////////////////////////////////////////
+        initialize_signals;
+        #8
+        reset = 0;
+        #8
+        // Test FSM transitions
+        // IDLE -> START
+        $display("Testing IDLE -> START");
+        reset=0;
+        start=1;
+        clothes_loaded=1;
+        door_locked=1;
+        #8;
+        if (dut.current_state != dut.START) $display("Failed IDLE -> START!");
+        else $display("Passed IDLE -> START!");
+        #8
+        // START -> FILL_INITIAL
+        $display("Testing START -> FILL_INITIAL");
+        wash_mode = wmindex;
+        confirm_wash_mode = 1;
+        temp_index = $unsigned($random) % 4; // Random index between 0 and 3
+        speed_index = $unsigned($random) % 4; // Random index between 0 and 3
+        selected_temperature = temp_values[temp_index];
+        selected_spin_speed = speed_values[speed_index];
+        #8
+        if (dut.current_state != dut.FILL_INITIAL) $display("Failed START -> FILL_INITIAL!");
+        else $display("Passed START -> FILL_INITIAL!");
+        #8
+        // FILL_INITIAL -> HEAT_FILL
+        $display("Testing FILL_INITIAL -> HEAT_FILL");
+        water_level_sensor = 10'd110;
+        water_level=10'd300;
+        #8
+        if (dut.current_state != dut.HEAT_FILL) $display("Failed FILL_INITIAL -> HEAT_FILL!");
+        else $display("Passed FILL_INITIAL -> HEAT_FILL!");
+        #8
+        // HEAT_FILL -> WASH
+        $display("Testing HEAT_FILL -> WASH");
+        water_level_sensor=$unsigned($random) % 200;
+        temperature_adc_sensor=$unsigned($random) % 5;
+        #2
+        water_level_sensor=10'd300;
+        temperature_adc_sensor=7'd60;
+        #8
+        if (dut.current_state != dut.WASH) $display("Failed HEAT_FILL -> WASH!");
+        else $display("Passed HEAT_FILL -> WASH!");
+        #8
+        // WASH -> DRAIN_AFTER_WASH
+        $display("Testing WASH -> DRAIN_AFTER_WASH");
+        timer_done=1;
+        #8
+        if (dut.current_state != dut.DRAIN_AFTER_WASH) $display("Failed WASH -> DRAIN_AFTER_WASH!");
+        else $display("Passed WASH -> DRAIN_AFTER_WASH!");
+        timer_done=0;
+        #8
+        // DRAIN_AFTER_WASH -> FILL_BEFORE_RINSE
+        $display("Testing DRAIN_AFTER_WASH -> FILL_BEFORE_RINSE");
+        stop = 1;
+        #4
+        stop = 0;
+        #8
+        //////////////////////////////////////////////
+        
         #25 $stop;
     end
-
 endmodule

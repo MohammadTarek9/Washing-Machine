@@ -38,13 +38,11 @@ module water_flow_tb;
         repeat(5) begin
             #2 water_level_sensor = water_level_sensor + 10'd20; // Increase water level
         end
-
         // 2. Test insufficient increase in filling mode
         // Hold water level constant to trigger error flag
         #2 water_level_sensor = water_level_sensor;
         #20; // Wait for TIME_LIMIT cycles (adjust based on TIME_LIMIT value in module)
         //$display("Error Flag (Filling mode, no increase): %d", error_flag);
-
         // 3. Switch to draining mode and reset
         reset = 1;
         #2 reset = 0;
@@ -52,13 +50,10 @@ module water_flow_tb;
         #2 reset = 1;
         water_level_sensor = 10'd200; // New starting water level
         #2 reset = 0;
-        
         // 4. Test normal operation in draining mode
-
         repeat(5) begin
             #2 water_level_sensor = water_level_sensor - 10'd20; // Decrease water level
         end
-
         // 5. Test insufficient decrease in draining mode
         #2 water_level_sensor = water_level_sensor;
         #20; // Wait for TIME_LIMIT cycles

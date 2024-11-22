@@ -32,5 +32,30 @@ always @(posedge clk or posedge reset) begin
         end
     end
 end
-
+//check that the water level is set to 0 when reset is high
+/*
+psl default clock=rose(clk);
+psl property RESET_WATER_LEVEL = always (reset==1 -> next(water_level==0));
+psl assert RESET_WATER_LEVEL;
+*/
+//check that the water level is set to LOW_SENSOR_VALUE when load_weight is less than or equal to LOW_THRESHOLD
+/*
+psl property LOW_WATER_LEVEL = always ((load_weight<=LOW_THRESHOLD && !reset) -> next(water_level==LOW_SENSOR_VALUE));
+psl assert LOW_WATER_LEVEL;
+*/
+//check that the water level is set to MEDIUM_SENSOR_VALUE when load_weight is less than or equal to MEDIUM_THRESHOLD
+/*
+psl property MEDIUM_WATER_LEVEL = always ((load_weight<=MEDIUM_THRESHOLD && load_weight>LOW_THRESHOLD && !reset) -> next(water_level==MEDIUM_SENSOR_VALUE));
+psl assert MEDIUM_WATER_LEVEL;
+*/
+//check that the water level is set to HIGH_SENSOR_VALUE when load_weight is less than or equal to HIGH_THRESHOLD
+/*
+psl property HIGH_WATER_LEVEL = always ((load_weight<=HIGH_THRESHOLD && load_weight>MEDIUM_THRESHOLD && !reset) -> next(water_level==HIGH_SENSOR_VALUE));
+psl assert HIGH_WATER_LEVEL;
+*/
+//check that the water level is set to EXTRA_HIGH_SENSOR_VALUE when load_weight is greater than HIGH_THRESHOLD
+/*
+psl property EXTRA_HIGH_WATER_LEVEL = always ((load_weight>HIGH_THRESHOLD && !reset) -> next(water_level==EXTRA_HIGH_SENSOR_VALUE));
+psl assert EXTRA_HIGH_WATER_LEVEL;
+*/
 endmodule

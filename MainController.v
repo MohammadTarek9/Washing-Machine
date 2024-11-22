@@ -213,7 +213,7 @@ WashingMachineFSM fsm_inst (
 //ensure that drum motor is assigned to the selected spin speed in wash, rinse, and dry spin
 /*
     psl property DRUM_MOTOR_ON = always ((fsm_inst.current_state==fsm_inst.WASH || fsm_inst.current_state==fsm_inst.RINSE || fsm_inst.current_state==fsm_inst.DRY_SPIN) -> drum_motor==fsm_inst.selected_spin_speed);
-    psl assert DRAIN_PUMP_ON;
+    psl assert DRUM_MOTOR_ON;
 */
 //ensure that cycle complete led is on when cycle is complete
 /*

@@ -56,19 +56,11 @@ initial begin
     // Test Case 7:  (load_weight = HIGH_THRESHOLD)
     #2 load_weight = 8'd80; // 01010000
     #2; // Wait and check water_level output
-
-    // Test Case 8: Medium load weight
-    #2 load_weight = 8'd25; // 00011001
-    #2; // Wait and check water_level output
-
-    // Additional Test Case 9: Toggle all bits
-    #2 load_weight = 8'd255; // 11111111
-    #2; // Wait and check water_level output
-
-    // Additional Test Case 10: Toggle all bits back to 0
-    #2 load_weight = 8'd0; // 00000000
-    #2; // Wait and check water_level output
-
+    //randomized cases
+    repeat(30) begin
+        #2 load_weight = ($unsigned($random)%255)+1;
+        #2;
+    end
      #4 $stop;      
      end
 
@@ -76,4 +68,5 @@ initial begin
     initial begin
         $monitor("Time=%t, reset=%b, load_weight=%d, water_level=%d", $time, reset, load_weight, water_level);
     end
+
 endmodule

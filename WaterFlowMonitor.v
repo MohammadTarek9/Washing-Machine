@@ -53,5 +53,23 @@ module WaterFlowMonitor (
             end
         end
     end
-
+/*
+psl default clock=rose(clk);
+psl property RESET=always (reset==1 -> next(previous_level == prev(water_level_sensor) && !counter && !error_flag));
+    psl assert RESET;
+*/
+/*
+psl property NORMAL = always ((mode && !error_flag && !reset && (water_level_sensor > previous_level + THRESHOLD)) ->
+    next(counter==0 && (previous_level <= water_level_sensor)));
+psl assert NORMAL;
+*/
+/*
+psl property ERROR = always ((counter >= TIME_LIMIT && !error_flag) ->
+    next(error_flag));
+psl assert ERROR;
+*/
+/*psl property COUNTER_INCREMENT = always ((!error_flag && !reset && (mode && water_level_sensor <= previous_level + THRESHOLD) && counter < TIME_LIMIT) ->
+    next(counter == prev(counter) + 1));
+    psl assert COUNTER_INCREMENT;
+*/
 endmodule

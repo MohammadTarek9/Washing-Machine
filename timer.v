@@ -23,5 +23,25 @@ module timer (clk, reset, enable, clk_freq, timer_period, done);
             end
         end
     end
-
+//ensure when reset is high, counter is reset to 0
+/*
+psl default clock=rose(clk);
+psl property RESET_COUNTER = always (reset==1 -> next(counter==0));
+psl assert RESET_COUNTER;
+*/
+//ensure when reset is high, done is reset to 0
+/*
+psl property RESET_DONE = always (reset==1 -> next(done==0));
+psl assert RESET_DONE;
+*/
+//ensure when counter reaches count_max, done is set to 1
+/*
+psl property DONE_SET = always ((counter==count_max && !reset && enable) -> next(done==1));
+psl assert DONE_SET;
+*/
+//ensure when counter is less than count_max, counter is incremented
+/*
+psl property COUNTER_INCREMENT = always ((counter<count_max && !reset && enable) -> next(counter==prev(counter)+1'b1));
+psl assert COUNTER_INCREMENT;
+*/
 endmodule
