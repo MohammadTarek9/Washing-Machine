@@ -21,7 +21,7 @@ module Main_tb();
     wire water_valve;
     wire heater;
     wire drain_pump;
-    wire [3:0] drum_motor;  
+    wire [10:0] drum_motor;  
     wire water_flow_error_led;   // LED indicator for water flow error
     wire drainage_error_led;     // LED indicator for drainage error
     wire vibration_error_led;   // LED indicator for vibration error

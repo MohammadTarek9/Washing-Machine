@@ -114,7 +114,7 @@ module WashingMachineFSM (
     water_valve = 0;
     detergent_valve = 0;
     heater = 0;
-    drum_motor = 0;
+    drum_motor = 11'd0;
     drain_pump = 0;
     cycle_complete_led = 0;
     timer_reset = 0;
@@ -242,7 +242,7 @@ module WashingMachineFSM (
           timer_reset = 1;
           heater = 0;
           drain_pump = 1;
-          drum_motor = 0;
+          drum_motor = 11'd0;
           water_flow_mode = 0;  // Draining mode
           water_flow_reset = 0;
           if (water_level_sensor == 0) begin
@@ -276,7 +276,7 @@ module WashingMachineFSM (
         end
 
         DRAIN_AFTER_RINSE: begin
-          drum_motor = 0;
+          drum_motor = 11'd0;
           drain_pump = 1;
           timer_reset = 1;
           water_flow_mode = 0;  // Draining mode
@@ -317,7 +317,7 @@ module WashingMachineFSM (
         CANCEL_DRAIN: begin
           // Ensure safety by turning off other actuators
           heater           = 0;
-          drum_motor       = 0;
+          drum_motor       = 11'd0;
           water_valve      = 0;  
           drain_pump       = 1;  
           water_flow_mode  = 0;  
@@ -337,7 +337,6 @@ module WashingMachineFSM (
       endcase
     end
   end
-
 //ensure that when reset is asserted, next state is IDLE
 /*
     psl default clock=rose(clk);
@@ -422,5 +421,4 @@ module WashingMachineFSM (
     psl property STOPPING = always (stop -> next(current_state==CANCEL_DRAIN));
     psl assert STOPPING;
 */
-
 endmodule
